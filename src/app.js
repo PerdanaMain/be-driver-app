@@ -1,14 +1,13 @@
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import logger from "./config/logger.js";
-import fs from "fs";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import Logger from "./config/logger.js";
+import indexRoutes from "./routes/index.routes.js";
 
 import "dotenv/config";
 
 const app = express();
+const logger = new Logger();
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -26,14 +25,7 @@ app.use(limiter);
 app.use(logger.getHttpLoggerMiddleware());
 app.use(logger.getFileLoggerMiddleware());
 
-app.get("/", (req, res) => {
-  res.json(
-    {
-      message: "Hello World",
-      status: true,
-    },
-    200
-  );
-});
+// Routes
+app.use("/", indexRoutes);
 
 export default app;

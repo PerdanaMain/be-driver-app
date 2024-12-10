@@ -27,6 +27,7 @@ class Database {
     try {
       await this.prisma.$connect();
       console.log("Database connected");
+      return true;
     } catch (error) {
       console.error("Database connection error", error);
       throw error;

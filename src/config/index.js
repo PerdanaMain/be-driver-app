@@ -4,6 +4,6 @@ export default {
   env,
   port: process.env.PORT || 5000,
   api: {
-    prefix: "/api",
+    prefix: "/api/v1",
   },
 };
