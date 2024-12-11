@@ -1,6 +1,9 @@
 {
   "name": "app-driver-backed",
   "version": "1.0.0",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "main": "index.js",
   "type": "module",
   "scripts": {
