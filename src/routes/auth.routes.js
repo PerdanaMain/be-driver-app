@@ -1,21 +1,11 @@
 import express from "express";
+import AuthControllers from "../controllers/auth.controllers.js";
 
 const router = express.Router();
+const Auth = new AuthControllers();
 
-router.get("/", (req, res) => {
-  res.json({
-    status: true,
-    message: "Fetch all users",
-    data: {
-      users: [
-        {
-          id: 1,
-          name: "John Doe",
-          email: "budi@gmail.com",
-        },
-      ],
-    },
-  });
-});
+router.post("/register", Auth.register);
+router.post("/login", Auth.login);
+router.delete("/logout", Auth.logout);
 
 export default router;

@@ -1,7 +1,8 @@
-const env = process.env.NODE_ENV || "development";
+import "dotenv/config";
 
 export default {
-  env,
+  env: process.env.NODE_ENV || "development",
+  jwtSecret: process.env.JWT_SECRET,
   port: process.env.PORT || 5000,
   api: {
     prefix: "/api/v1",
