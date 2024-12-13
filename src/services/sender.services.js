@@ -9,10 +9,10 @@ class SenderServices {
     return this.prisma.senders.findMany();
   }
 
-  getSender() {
+  getSender(id) {
     return this.prisma.senders.findUnique({
       where: {
-        id: parseInt(id),
+        id,
       },
     });
   }

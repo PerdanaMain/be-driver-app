@@ -6,7 +6,20 @@ class PackageServices {
   }
 
   async getAllPackages() {
-    return this.prisma.packages.findMany();
+    return this.prisma.packages.findMany({
+      select: {
+        id: true,
+        status: true,
+        Receiver: true,
+        Sender: true,
+      },
+    });
+  }
+
+  async createPackage(data) {
+    return this.prisma.packages.create({
+      data,
+    });
   }
 }
 

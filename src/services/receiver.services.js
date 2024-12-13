@@ -16,6 +16,23 @@ class ReceiverServices {
       },
     });
   }
+
+  getReceiverByName(name) {
+    return this.prisma.receivers.findFirst({
+      where: {
+        name: {
+          contains: name,
+          mode: "insensitive",
+        },
+      },
+    });
+  }
+
+  create(data) {
+    return this.prisma.receivers.create({
+      data,
+    });
+  }
 }
 
 export default new ReceiverServices();
