@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "db:fresh": "npx prisma migrate reset"
+    "db:fresh": "npx prisma migrate reset",
+    "db:seed": "npx prisma db seed"
   },
   "keywords": [],
   "author": "",

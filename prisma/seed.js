@@ -16,6 +16,21 @@ async function main() {
       },
     ],
   });
+
+  await prisma.senders.createMany({
+    data: [
+      {
+        name: "ITS",
+        phone: "0822222222",
+        address: "Jl. Raya ITS",
+      },
+      {
+        name: "UB",
+        phone: "0811111111",
+        address: "Jl. Raya UB",
+      },
+    ],
+  });
 }
 
 main()
