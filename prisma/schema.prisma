@@ -32,3 +32,36 @@ model Roles {
   updatedAt DateTime @updatedAt
   Users     Users[]
 }
+
+model Receivers {
+  id        String     @id @default(uuid())
+  name      String
+  phone     String
+  address   String
+  latitude  String
+  longitude String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Package   Packages[]
+}
+
+model Senders {
+  id        String     @id @default(uuid())
+  name      String
+  phone     String
+  address   String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Package   Packages[]
+}
+
+model Packages {
+  id         String    @id @default(uuid())
+  senderId   String
+  receiverId String
+  status     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Sender     Senders   @relation(fields: [senderId], references: [id])
+  Receiver   Receivers @relation(fields: [receiverId], references: [id])
+}
