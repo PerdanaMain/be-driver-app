@@ -5,11 +5,11 @@ class ReceiverServices {
     this.prisma = new PrismaClient();
   }
 
-  async getReceivers() {
+  getReceivers() {
     return this.prisma.receivers.findMany();
   }
 
-  async getReceiver(id) {
+  getReceiver(id) {
     return this.prisma.receivers.findUnique({
       where: {
         id: parseInt(id),
