@@ -1,6 +1,6 @@
 import config from "../config/index.js";
 import userServices from "../services/user.services.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 class AuthControllers {

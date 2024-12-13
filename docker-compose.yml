@@ -1,32 +1,18 @@
 version: '3.8'
+
 services:
-  app:
+  driver-app:
+    container_name: "driver-app"
     build: .
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@91.108.111.175:5432/driver_app?schema=public
-      - JWT_SECRET=asdasdqweqw
-      - NODE_ENV=production
-    depends_on:
-      - db
+      - DATABASE_URL=postgresql://postgres:postgresdb@localhost:5432/driver_app?schema=public
+      - JWT_SECRET=${JWT_SECRET}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - app-network
-    restart: unless-stopped
-
-  db:
-    image: postgres:14
-    ports:
-      - "5433:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=driver_app
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
-    restart: unless-stopped
+    restart: always
 
 networks:
   app-network:

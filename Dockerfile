@@ -1,21 +1,25 @@
 # Base image
-FROM node:18-alpine
+FROM node:alpine
+
+# Install necessary dependencies including openssl
+RUN apk add --no-cache make gcc g++ python3 openssl openssl-dev
+
 
 # Set working directory
-WORKDIR /src
+WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies
+# Install dependencies and rebuild bcrypt
 RUN npm install
 
 # Generate Prisma Client
 RUN npx prisma generate
 
 # Copy project files
-COPY . .
+COPY . ./
 
 # Expose port
 EXPOSE 5000
