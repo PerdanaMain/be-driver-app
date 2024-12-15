@@ -24,7 +24,7 @@ router.get(prefix + "/", async (req, res) => {
 
 router.use(prefix + "/auth", authRoutes);
 router.use(prefix + "/roles", roleRoutes);
-router.use(prefix + "/packages", Auth.verifyToken, packageRoutes);
+router.use(prefix + "/packages", packageRoutes);
 router.use(prefix + "/receivers", Auth.verifyToken, receiverRoutes);
 router.use(prefix + "/senders", Auth.verifyToken, senderRoutes);
 
