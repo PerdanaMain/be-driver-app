@@ -33,6 +33,15 @@ class ReceiverServices {
       data,
     });
   }
+
+  update(id, data) {
+    return this.prisma.receivers.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
 }
 
 export default new ReceiverServices();

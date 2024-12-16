@@ -72,6 +72,80 @@ class PackageControllers {
       });
     }
   }
+
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const {
+        receiverName,
+        receiverAddress,
+        receiverPhone,
+        receiverLatitude,
+        receiverLongitude,
+        senderId,
+      } = req.body;
+
+      const packageData = await PackageServices.getPackage(id);
+
+      if (!packageData)
+        return res.status(404).json({
+          status: false,
+          message: "Package not found",
+        });
+
+      const updatedReceiver = await ReceiverServices.update(
+        packageData.Receiver.id,
+        {
+          name: receiverName,
+          address: receiverAddress,
+          phone: receiverPhone,
+          latitude: receiverLatitude,
+          longitude: receiverLongitude,
+        }
+      );
+
+      const updatedPackage = await PackageServices.updatePackage(id, {
+        senderId,
+        receiverId: updatedReceiver.id,
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: "Package updated successfully",
+        data: updatedPackage,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  }
+
+  async destroy(req, res) {
+    try {
+      const { id } = req.params;
+      const packageData = await PackageServices.getPackage(id);
+
+      if (!packageData)
+        return res.status(404).json({
+          status: false,
+          message: "Package not found",
+        });
+
+      await PackageServices.deletePackage(id);
+
+      return res.status(200).json({
+        status: true,
+        message: "Package deleted successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  }
 }
 
 export default PackageControllers;
