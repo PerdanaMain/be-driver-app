@@ -16,6 +16,29 @@ class SenderServices {
       },
     });
   }
+
+  createSender(data) {
+    return this.prisma.senders.create({
+      data,
+    });
+  }
+
+  updateSender(id, data) {
+    return this.prisma.senders.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  deleteSender(id) {
+    return this.prisma.senders.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
 
 export default new SenderServices();
