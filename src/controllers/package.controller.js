@@ -157,7 +157,7 @@ class PackageControllers {
     }
   }
 
-  async destroyAll() {
+  async destroyAll(req, res) {
     try {
       await PackageServices.deleteAllPackage();
 

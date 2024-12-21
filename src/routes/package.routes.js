@@ -8,5 +8,6 @@ router.get("/", Packages.index);
 router.post("/", Packages.create);
 router.put("/:id", Packages.update);
 router.delete("/:id", Packages.destroy);
+router.delete("/", Packages.destroyAll);
 
 export default router;
