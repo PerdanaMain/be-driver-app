@@ -11,7 +11,7 @@ class UserServices {
         email,
       },
       include: {
-        Roles: {
+        roles: {
           select: {
             id: true,
             name: true,

@@ -17,6 +17,17 @@ class SenderServices {
     });
   }
 
+  getSenderByName(name) {
+    return this.prisma.senders.findFirst({
+      where: {
+        name: {
+          contains: name,
+          mode: "insensitive",
+        },
+      },
+    });
+  }
+
   createSender(data) {
     return this.prisma.senders.create({
       data,

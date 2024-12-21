@@ -10,8 +10,8 @@ class PackageServices {
       select: {
         id: true,
         status: true,
-        Receiver: true,
-        Sender: true,
+        receiver: true,
+        sender: true,
       },
     });
   }
@@ -24,8 +24,8 @@ class PackageServices {
       select: {
         id: true,
         status: true,
-        Receiver: true,
-        Sender: true,
+        receiver: true,
+        sender: true,
       },
     });
   }
@@ -43,8 +43,8 @@ class PackageServices {
       },
       data,
       include: {
-        Receiver: true,
-        Sender: true,
+        receiver: true,
+        sender: true,
       },
     });
   }

@@ -28,17 +28,27 @@ class PackageControllers {
         receiverPhone,
         receiverLatitude,
         receiverLongitude,
-        senderId,
+        senderName,
+        senderAddress,
+        senderPhone,
+        senderLatitude,
+        senderLongitude,
       } = req.body;
 
-      const sender = await SenderServices.getSender(senderId);
+      let sender = await SenderServices.getSenderByName(senderName);
       let receiver = await ReceiverServices.getReceiverByName(receiverName);
 
-      if (!sender)
-        return res.status(404).json({
-          status: false,
-          message: "Sender not registered",
-        });
+      if (!sender) {
+        const data = {
+          name: senderName,
+          address: senderAddress,
+          phone: senderPhone,
+          latitude: senderLatitude,
+          longitude: senderLongitude,
+        };
+
+        sender = await SenderServices.createSender(data);
+      }
 
       if (!receiver) {
         const data = {
@@ -53,7 +63,7 @@ class PackageControllers {
       }
 
       const data = {
-        senderId,
+        senderId: sender.id,
         receiverId: receiver.id,
         status: "pending",
       };
