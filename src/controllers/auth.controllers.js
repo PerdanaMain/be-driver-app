@@ -67,7 +67,7 @@ class AuthControllers {
           id: user.id,
           roleId: user.roleId,
           email: user.email,
-          roleName: user.Roles.name,
+          roleName: user.roles.name,
         },
         config.jwtSecret,
         { expiresIn: "1h" }
@@ -87,7 +87,7 @@ class AuthControllers {
             id: user.id,
             name: user.name,
             email: user.email,
-            role: user.Roles.name,
+            role: user.roles.name,
           },
         },
       });

@@ -156,6 +156,22 @@ class PackageControllers {
       });
     }
   }
+
+  async destroyAll() {
+    try {
+      await PackageServices.deleteAllPackage();
+
+      return res.status(200).json({
+        status: true,
+        message: "All Packages deleted successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  }
 }
 
 export default PackageControllers;

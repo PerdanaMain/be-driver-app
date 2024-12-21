@@ -56,6 +56,10 @@ class PackageServices {
       },
     });
   }
+
+  deleteAllPackage() {
+    return this.prisma.packages.deleteMany();
+  }
 }
 
 export default new PackageServices();
