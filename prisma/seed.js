@@ -23,11 +23,15 @@ async function main() {
         name: "ITS",
         phone: "0822222222",
         address: "Jl. Raya ITS",
+        latitude:"92.1516163161",
+        longitude:"-215.2515212"
       },
       {
         name: "UB",
         phone: "0811111111",
         address: "Jl. Raya UB",
+        latitude:"92.1516163161",
+        longitude:"-215.2515212"
       },
     ],
   });

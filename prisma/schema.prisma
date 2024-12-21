@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model users {
   id        String   @id @default(uuid())
   roleId    String?
   email     String   @unique
@@ -22,18 +22,18 @@ model Users {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Roles Roles? @relation(fields: [roleId], references: [id])
+  roles roles? @relation(fields: [roleId], references: [id])
 }
 
-model Roles {
+model roles {
   id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Users     Users[]
+  users     users[]
 }
 
-model Receivers {
+model receivers {
   id        String     @id @default(uuid())
   name      String
   phone     String
@@ -42,26 +42,28 @@ model Receivers {
   longitude String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  Package   Packages[]
+  package   packages[]
 }
 
-model Senders {
+model senders {
   id        String     @id @default(uuid())
   name      String
   phone     String
   address   String
+  latitude  String
+  longitude String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  Package   Packages[]
+  package   packages[]
 }
 
-model Packages {
+model packages {
   id         String    @id @default(uuid())
   senderId   String
   receiverId String
   status     String
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  Sender     Senders   @relation(fields: [senderId], references: [id])
-  Receiver   Receivers @relation(fields: [receiverId], references: [id])
+  sender     senders   @relation(fields: [senderId], references: [id])
+  receiver   receivers @relation(fields: [receiverId], references: [id])
 }

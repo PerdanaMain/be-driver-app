@@ -25,8 +25,8 @@ router.get(prefix + "/", async (req, res) => {
 router.use(prefix + "/auth", authRoutes);
 router.use(prefix + "/roles", roleRoutes);
 router.use(prefix + "/packages", packageRoutes);
-router.use(prefix + "/receivers", Auth.verifyToken, receiverRoutes);
-router.use(prefix + "/senders", Auth.verifyToken, senderRoutes);
+router.use(prefix + "/receivers", receiverRoutes);
+router.use(prefix + "/senders", senderRoutes);
 
 router.use("*", (req, res) => {
   res.status(404).json({
@@ -34,5 +34,6 @@ router.use("*", (req, res) => {
     message: `Cannot ${req.method} ${req.originalUrl}`,
   });
 });
+
 
 export default router;
