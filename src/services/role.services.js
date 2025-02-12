@@ -23,6 +23,14 @@ class RoleServices {
     });
   }
 
+  getRoleByName(name) {
+    return this.prisma.roles.findFirst({
+      where: {
+        name: name,
+      },
+    });
+  }
+
   updateRole(id, data) {
     return this.prisma.roles.update({
       where: {

@@ -2,20 +2,24 @@ import config from "../config/index.js";
 import userServices from "../services/user.services.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import roleServices from "../services/role.services.js";
 class AuthControllers {
   async register(req, res) {
-    const { name, email, password, conf_password, roleId } = req.body;
+    const { name, email, password, conf_password, roleId, roleName } = req.body;
 
     const user = await userServices.getUserByEmail(email);
+    const role = await roleServices.getRoleByName(roleName);
     const salt = await bcrypt.genSalt();
+
+    if (!role)
+      return res.status(400).json({ status: false, message: "Role not found" });
 
     if (user)
       return res
         .status(400)
         .json({ status: false, message: "User already exists" });
 
-    if (!name || !email || !password || !conf_password)
+    if (!name || !email || !password || !conf_password || !roleName)
       return res
         .status(400)
         .json({ status: false, message: "All fields are required" });
@@ -27,7 +31,7 @@ class AuthControllers {
         name,
         email,
         password: hashedPassword,
-        roleId,
+        roleId: role.id,
       });
 
       return res.status(200).json({
