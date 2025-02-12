@@ -31,9 +31,8 @@ router.use(prefix + "/senders", senderRoutes);
 router.use("*", (req, res) => {
   res.status(404).json({
     status: "error",
-    message: `Cannot ${req.method} ${req.originalUrl}`,
+    message: `Route ${req.method} ${req.originalUrl} not found`,
   });
 });
-
 
 export default router;
