@@ -95,6 +95,7 @@ class PackageControllers {
         receiverLatitude,
         receiverLongitude,
         senderId,
+        packageDescription,
       } = req.body;
 
       const packageData = await PackageServices.getPackage(id);
@@ -106,7 +107,7 @@ class PackageControllers {
         });
 
       const updatedReceiver = await ReceiverServices.update(
-        packageData.Receiver.id,
+        packageData?.receiver.id,
         {
           name: receiverName,
           address: receiverAddress,
@@ -119,6 +120,7 @@ class PackageControllers {
       const updatedPackage = await PackageServices.updatePackage(id, {
         senderId,
         receiverId: updatedReceiver.id,
+        description: packageDescription,
       });
 
       return res.status(200).json({

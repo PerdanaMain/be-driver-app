@@ -10,6 +10,7 @@ class PackageServices {
       select: {
         id: true,
         status: true,
+        description: true,
         receiver: true,
         sender: true,
       },
