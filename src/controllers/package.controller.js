@@ -33,6 +33,7 @@ class PackageControllers {
         senderPhone,
         senderLatitude,
         senderLongitude,
+        packageDescription,
       } = req.body;
 
       let sender = await SenderServices.getSenderByName(senderName);
@@ -65,6 +66,7 @@ class PackageControllers {
       const data = {
         senderId: sender.id,
         receiverId: receiver.id,
+        description: packageDescription,
         status: "pending",
       };
 

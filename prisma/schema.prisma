@@ -62,6 +62,7 @@ model packages {
   senderId   String
   receiverId String
   status     String
+  description String?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   sender     senders   @relation(fields: [senderId], references: [id])
