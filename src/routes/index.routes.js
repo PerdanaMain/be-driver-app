@@ -14,10 +14,18 @@ const router = express.Router();
 const Auth = new VerifyToken();
 const prefix = config.api.prefix;
 
+router.get("/", async (req, res) => {
+  res.json({
+    status: true,
+    message: "Welcome to the API",
+    dbConnection: await db.connect(),
+  });
+});
+
 router.get(prefix + "/", async (req, res) => {
   res.json({
     status: "success",
-    message: "Welcome to the API",
+    message: "Welcome to the API version 1",
     dbConnection: await db.connect(),
   });
 });
