@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -6,34 +7,29 @@ async function main() {
   await prisma.roles.createMany({
     data: [
       {
-        name: "admin",
+        name: "Admin",
       },
       {
-        name: "drive",
+        name: "Customer",
       },
       {
-        name: "customer",
+        name: "Driver",
       },
     ],
   });
 
-  await prisma.senders.createMany({
-    data: [
-      {
-        name: "ITS",
-        phone: "0822222222",
-        address: "Jl. Raya ITS",
-        latitude:"92.1516163161",
-        longitude:"-215.2515212"
-      },
-      {
-        name: "UB",
-        phone: "0811111111",
-        address: "Jl. Raya UB",
-        latitude:"92.1516163161",
-        longitude:"-215.2515212"
-      },
-    ],
+  const role = await prisma.roles.findFirst({
+    where: {
+      name: "Admin",
+    },
+  });
+
+  await prisma.users.create({
+    data: {
+      email: "admin@admin",
+      password: bcrypt.hashSync("admin", 10),
+      roleId: role?.id,
+    },
   });
 }
 
