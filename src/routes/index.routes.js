@@ -7,6 +7,7 @@ import packageRoutes from "./package.routes.js";
 import receiverRoutes from "./receivers.routes.js";
 import senderRoutes from "./sender.routes.js";
 import roleRoutes from "./role.routes.js";
+import driverRoutes from "./driver.routes.js";
 
 import VerifyToken from "../middlewares/verifyToken.middlewares.js";
 
@@ -33,7 +34,11 @@ router.get(prefix + "/", async (req, res) => {
 router.use(prefix + "/auth", authRoutes);
 router.use(prefix + "/roles", roleRoutes);
 router.use(prefix + "/packages", packageRoutes);
+router.use(prefix + "/drivers", driverRoutes);
+
+// unused routes
 router.use(prefix + "/receivers", receiverRoutes);
+// unused routes
 router.use(prefix + "/senders", senderRoutes);
 
 router.use("*", (req, res) => {
