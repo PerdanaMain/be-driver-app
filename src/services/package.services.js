@@ -6,27 +6,13 @@ class PackageServices {
   }
 
   getAllPackages() {
-    return this.prisma.packages.findMany({
-      select: {
-        id: true,
-        status: true,
-        description: true,
-        receiver: true,
-        sender: true,
-      },
-    });
+    return this.prisma.packages.findMany();
   }
 
   getPackage(id) {
     return this.prisma.packages.findUnique({
       where: {
         id,
-      },
-      select: {
-        id: true,
-        status: true,
-        receiver: true,
-        sender: true,
       },
     });
   }
@@ -43,10 +29,6 @@ class PackageServices {
         id,
       },
       data,
-      include: {
-        receiver: true,
-        sender: true,
-      },
     });
   }
 

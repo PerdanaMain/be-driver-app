@@ -69,7 +69,7 @@ model orders {
 
 model packages {
   id                 String   @id @default(uuid())
-  weight             String
+  weight             Float
   price              Float
   status             String
   description        String?

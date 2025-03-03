@@ -34,40 +34,25 @@ class PackageControllers {
         senderLatitude,
         senderLongitude,
         packageDescription,
+        packageWeight,
+        packagePrice,
       } = req.body;
 
-      let sender = await SenderServices.getSenderByName(senderName);
-      let receiver = await ReceiverServices.getReceiverByName(receiverName);
-
-      if (!sender) {
-        const data = {
-          name: senderName,
-          address: senderAddress,
-          phone: senderPhone,
-          latitude: senderLatitude,
-          longitude: senderLongitude,
-        };
-
-        sender = await SenderServices.createSender(data);
-      }
-
-      if (!receiver) {
-        const data = {
-          name: receiverName,
-          address: receiverAddress,
-          phone: receiverPhone,
-          latitude: receiverLatitude,
-          longitude: receiverLongitude,
-        };
-
-        receiver = await ReceiverServices.create(data);
-      }
-
       const data = {
-        senderId: sender.id,
-        receiverId: receiver.id,
+        sender_name: senderName,
+        sender_address: senderAddress,
+        sender_phone: senderPhone,
+        sender_latitude: senderLatitude,
+        sender_longitude: senderLongitude,
+        receiver_name: receiverName,
+        receiver_address: receiverAddress,
+        receiver_phone: receiverPhone,
+        receiver_latitude: receiverLatitude,
+        receiver_longitude: receiverLongitude,
+        weight: packageWeight,
         description: packageDescription,
         status: "pending",
+        price: packagePrice,
       };
 
       const packageData = await PackageServices.createPackage(data);
@@ -94,8 +79,14 @@ class PackageControllers {
         receiverPhone,
         receiverLatitude,
         receiverLongitude,
-        senderId,
+        senderName,
+        senderAddress,
+        senderPhone,
+        senderLatitude,
+        senderLongitude,
         packageDescription,
+        packageWeight,
+        packagePrice,
       } = req.body;
 
       const packageData = await PackageServices.getPackage(id);
@@ -106,22 +97,24 @@ class PackageControllers {
           message: "Package not found",
         });
 
-      const updatedReceiver = await ReceiverServices.update(
-        packageData?.receiver.id,
-        {
-          name: receiverName,
-          address: receiverAddress,
-          phone: receiverPhone,
-          latitude: receiverLatitude,
-          longitude: receiverLongitude,
-        }
-      );
-
-      const updatedPackage = await PackageServices.updatePackage(id, {
-        senderId,
-        receiverId: updatedReceiver.id,
+      const data = {
+        sender_name: senderName,
+        sender_address: senderAddress,
+        sender_phone: senderPhone,
+        sender_latitude: senderLatitude,
+        sender_longitude: senderLongitude,
+        receiver_name: receiverName,
+        receiver_address: receiverAddress,
+        receiver_phone: receiverPhone,
+        receiver_latitude: receiverLatitude,
+        receiver_longitude: receiverLongitude,
+        weight: packageWeight,
         description: packageDescription,
-      });
+        status: "pending",
+        price: packagePrice,
+      };
+
+      const updatedPackage = await PackageServices.updatePackage(id, data);
 
       return res.status(200).json({
         status: true,
