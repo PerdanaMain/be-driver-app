@@ -9,6 +9,14 @@ class DriverServices {
     return this.prisma.drivers.findMany();
   };
 
+  getDriverById = (id) => {
+    return this.prisma.drivers.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
   getDriverByEmail = (email) => {
     return this.prisma.users.findUnique({
       where: {
@@ -19,6 +27,15 @@ class DriverServices {
 
   createDriver = (data) => {
     return this.prisma.drivers.create({
+      data,
+    });
+  };
+
+  updateDriver = (id, data) => {
+    return this.prisma.drivers.update({
+      where: {
+        id,
+      },
       data,
     });
   };

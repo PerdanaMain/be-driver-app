@@ -40,3 +40,8 @@ export const packagePut = z.object({
   packagePrice: z.number(),
   packageDescription: z.string().min(5),
 });
+
+export const orderPost = z.object({
+  packageId: z.string(),
+  driverId: z.string(),
+});
