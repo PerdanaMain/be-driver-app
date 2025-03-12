@@ -1,4 +1,4 @@
-import config from "../config/index.js";
+import config from "../utils/index.js";
 import userServices from "../services/user.services.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

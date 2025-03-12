@@ -1,7 +1,7 @@
 import express from "express";
 import DriverControllers from "../controllers/driver.controller.js";
 import validateRequest from "../middlewares/validateRequest.middleware.js";
-import { driverPost } from "../config/schema.js";
+import { driverPost } from "../utils/schema.js";
 
 const router = express.Router();
 const Drivers = new DriverControllers();

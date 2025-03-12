@@ -13,6 +13,18 @@ class OrderServices {
     });
   };
 
+  getOrderById = (id) => {
+    return this.prisma.orders.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        packages: true,
+        drivers: true,
+      },
+    });
+  };
+
   getExistingOrder = (packageId) => {
     return this.prisma.orders.findFirst({
       where: {
@@ -24,6 +36,14 @@ class OrderServices {
   createOrder = (data) => {
     return this.prisma.orders.create({
       data,
+    });
+  };
+
+  deleteOrder = (id) => {
+    return this.prisma.orders.delete({
+      where: {
+        id,
+      },
     });
   };
 }

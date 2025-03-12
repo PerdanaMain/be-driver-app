@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import Logger from "./config/logger.js";
+import Logger from "./utils/logger.js";
 import indexRoutes from "./routes/index.routes.js";
 
 import "dotenv/config";

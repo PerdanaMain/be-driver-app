@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Config from "../config/index.js";
+import Config from "../utils/index.js";
 
 class VerifyToken {
   async verifyToken(req, res, next) {

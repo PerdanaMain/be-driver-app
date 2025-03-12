@@ -19,6 +19,32 @@ class OrderController {
       });
     }
   };
+
+  show = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const order = await OrderServices.getOrderById(id);
+
+      if (!order) {
+        return res.status(404).json({
+          status: false,
+          message: "Order not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: "Order retrieved successfully",
+        data: order,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  };
+
   create = async (req, res) => {
     try {
       const { packageId, driverId, startedAt } = req.body;
@@ -68,6 +94,39 @@ class OrderController {
         status: true,
         message: "Order created successfully",
         data: null,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  };
+
+  destroy = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const order = await OrderServices.getOrderById(id);
+
+      if (!order) {
+        return res.status(404).json({
+          status: false,
+          message: "Order not found",
+        });
+      }
+
+      await OrderServices.deleteOrder(id);
+      await DriverServices.updateDriver(order.driverId, {
+        orderAmounts: order.drivers.orderAmounts - 1,
+      });
+
+      await PackageServices.updatePackage(order.packageId, {
+        status: "pending",
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: "Order deleted successfully",
       });
     } catch (error) {
       return res.status(500).json({

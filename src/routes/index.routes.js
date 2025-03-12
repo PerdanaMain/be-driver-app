@@ -1,6 +1,6 @@
 import express from "express";
-import config from "../config/index.js";
-import db from "../config/database.js";
+import config from "../utils/index.js";
+import db from "../utils/database.js";
 
 import authRoutes from "./auth.routes.js";
 import packageRoutes from "./package.routes.js";
