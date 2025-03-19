@@ -236,9 +236,8 @@ export default function POSPage() {
               </div>
             </div>
             
-            <div className="p-4">
+            <div className="p-4" ref={receiptRef}>
               <Receipt
-                ref={receiptRef}
                 items={receiptData.items}
                 subtotal={receiptData.subtotal}
                 tax={receiptData.tax}
