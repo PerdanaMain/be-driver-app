@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 import Header from '@/components/layout/Header';
 import ProductCard from '@/components/pos/ProductCard';
 import Cart from '@/components/pos/Cart';
+import Receipt from '@/components/pos/Receipt';
 
 // Mock data for products
 const mockProducts = [
@@ -28,6 +30,17 @@ export default function POSPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [receiptData, setReceiptData] = useState<{
+    items: CartItem[];
+    subtotal: number;
+    tax: number;
+    total: number;
+    date: Date;
+    receiptNumber: string;
+  } | null>(null);
+  
+  const receiptRef = useRef<HTMLDivElement>(null);
   
   // Filter products based on search term
   const filteredProducts = mockProducts.filter(product =>
@@ -72,12 +85,47 @@ export default function POSPage() {
   const handleCheckout = () => {
     setIsCheckingOut(true);
     
+    // Calculate totals
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const tax = subtotal * 0.1; // 10% tax
+    const total = subtotal + tax;
+    
+    // Generate receipt number
+    const receiptNumber = `INV-${Date.now().toString().slice(-6)}`;
+    
     // Simulate checkout process
     setTimeout(() => {
-      alert('Checkout successful!');
+      // Prepare receipt data
+      setReceiptData({
+        items: [...cartItems],
+        subtotal,
+        tax,
+        total,
+        date: new Date(),
+        receiptNumber
+      });
+      
+      // Show receipt modal
+      setShowReceipt(true);
+      
+      // Clear cart
       setCartItems([]);
       setIsCheckingOut(false);
     }, 1500);
+  };
+  
+  const handlePrint = useReactToPrint({
+    content: () => receiptRef.current,
+    documentTitle: 'Dagangin Receipt',
+    onAfterPrint: () => {
+      setShowReceipt(false);
+    },
+    removeAfterPrint: false
+  });
+  
+  const handleCloseReceipt = () => {
+    setShowReceipt(false);
+    setReceiptData(null);
   };
   
   return (
@@ -137,6 +185,48 @@ export default function POSPage() {
           />
         </div>
       </main>
+      
+      {/* Receipt Modal */}
+      {showReceipt && receiptData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-auto">
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold">Receipt</h2>
+                <button 
+                  onClick={handleCloseReceipt}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <Receipt
+                ref={receiptRef}
+                items={receiptData.items}
+                subtotal={receiptData.subtotal}
+                tax={receiptData.tax}
+                total={receiptData.total}
+                date={receiptData.date}
+                receiptNumber={receiptData.receiptNumber}
+              />
+            </div>
+            
+            <div className="p-4 border-t border-gray-200 flex justify-end space-x-2">
+              <button
+                onClick={handlePrint}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Print Receipt
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
