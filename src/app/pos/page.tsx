@@ -167,9 +167,7 @@ export default function POSPage() {
       <main className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Product Grid - Takes 2/3 on desktop, full width on mobile */}
         <div className="w-full md:w-2/3 p-4 overflow-auto">
-          <div className="mb-4 space-y-3">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
-            
+          <div className="mb-4 space-y-3">            
             {/* Search Bar */}
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
