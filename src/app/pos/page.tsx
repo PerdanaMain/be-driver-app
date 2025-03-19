@@ -27,6 +27,12 @@ interface CartItem {
 export default function POSPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Filter products based on search term
+  const filteredProducts = mockProducts.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   const handleAddToCart = (productId: string) => {
     const product = mockProducts.find(p => p.id === productId);
@@ -81,12 +87,28 @@ export default function POSPage() {
       <main className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Product Grid - Takes 2/3 on desktop, full width on mobile */}
         <div className="w-full md:w-2/3 p-4 overflow-auto">
-          <div className="mb-4">
+          <div className="mb-4 space-y-3">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
+            
+            {/* Search Bar */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-transparent focus:outline-none focus:ring-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              />
+            </div>
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {mockProducts.map(product => (
+            {filteredProducts.map(product => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -95,6 +117,12 @@ export default function POSPage() {
                 onAddToCart={handleAddToCart}
               />
             ))}
+            
+            {filteredProducts.length === 0 && (
+              <div className="col-span-full py-8 text-center text-gray-500 dark:text-gray-400">
+                No products found matching "{searchTerm}"
+              </div>
+            )}
           </div>
         </div>
         
