@@ -5,4 +5,4 @@ git pull origin master
 npm install
 
 # RESTART PM2
-pm2 restart 0
+pm2 restart 3
