@@ -117,10 +117,42 @@ export default function POSPage() {
   const handlePrint = useReactToPrint({
     content: () => receiptRef.current,
     documentTitle: 'Dagangin Receipt',
+    onBeforeGetContent: () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 500);
+      });
+    },
+    onBeforePrint: () => {
+      document.body.classList.add('print-mode');
+    },
     onAfterPrint: () => {
+      document.body.classList.remove('print-mode');
       setShowReceipt(false);
     },
-    removeAfterPrint: false
+    removeAfterPrint: false,
+    pageStyle: `
+      @page {
+        size: 80mm 297mm;
+        margin: 0;
+      }
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .print-mode * {
+          visibility: hidden;
+        }
+        .print-mode .receipt-content {
+          visibility: visible;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+      }
+    `
   });
   
   const handleCloseReceipt = () => {

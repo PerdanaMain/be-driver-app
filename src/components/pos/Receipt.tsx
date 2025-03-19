@@ -28,8 +28,17 @@ const Receipt = forwardRef<HTMLDivElement, ReceiptProps>((
   return (
     <div 
       ref={ref} 
-      className="bg-white p-6 max-w-md mx-auto print:max-w-full" 
-      style={{ fontFamily: 'monospace', fontSize: '13px' }}
+      className="bg-white p-6 max-w-md mx-auto print:max-w-full receipt-content" 
+      style={{ 
+        fontFamily: 'monospace', 
+        fontSize: '13px',
+        '@media print': {
+          width: '80mm',
+          minHeight: '297mm',
+          margin: 0,
+          padding: '5mm'
+        }
+      }}
     >
       <div className="flex items-center justify-center mb-4">
         <img src="/logo.svg" alt="DH" className="w-12 h-12" />
