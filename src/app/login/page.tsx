@@ -11,11 +11,11 @@ export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
   const [errors, setErrors] = useState({
-    email: '',
+    username: '',
     password: '',
     general: ''
   });
@@ -39,17 +39,14 @@ export default function LoginPage() {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
-      email: '',
+      username: '',
       password: '',
       general: ''
     };
 
     // Email validation
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+    if (!formData.username) {
+      newErrors.username = 'Email is required';
       isValid = false;
     }
 
@@ -78,8 +75,8 @@ export default function LoginPage() {
       // This is a mock authentication - replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // For demo purposes, hardcoded credentials check
-      if (formData.email === 'admin@example.com' && formData.password === 'password') {
+      // For demo purposes, hardcoded credentials check, don't forget to change 
+      if (formData.username === 'kasir' && formData.password === 'akukasir') {
         // Simulate successful login
         // In a real app, you would store auth token, user info, etc.
         localStorage.setItem('isLoggedIn', 'true');
@@ -119,13 +116,13 @@ export default function LoginPage() {
               
               <div>
                 <Input
-                  label="Email"
-                  type="email"
-                  name="email"
-                  placeholder="your@email.com"
-                  value={formData.email}
+                  label="Username"
+                  type="text"
+                  name="username"
+                  placeholder="username"
+                  value={formData.username}
                   onChange={handleChange}
-                  error={errors.email}
+                  error={errors.username}
                   fullWidth
                   leftIcon={
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
