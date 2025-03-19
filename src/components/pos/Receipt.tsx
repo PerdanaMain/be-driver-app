@@ -31,54 +31,55 @@ const Receipt = forwardRef<HTMLDivElement, ReceiptProps>((
       className="bg-white p-6 max-w-md mx-auto" 
       style={{ fontFamily: 'monospace', fontSize: '12px' }}
     >
-      <div className="text-center mb-4">
-        <h1 className="text-xl font-bold">Dagangin Store</h1>
-        <p>Jl. Contoh No. 123, Jakarta</p>
-        <p>Tel: (021) 123-4567</p>
-        <p className="text-sm mt-2">Receipt #{receiptNumber}</p>
-        <p className="text-sm">
+      <div className="flex items-center justify-center mb-4">
+        <img src="/logo.svg" alt="DH" className="w-12 h-12" />
+      </div>
+      
+      <div className="text-center mb-6">
+        <h1 className="text-xl font-bold mb-1">Dree Payment</h1>
+        <p className="text-sm text-gray-600">Sidoarjo • +6281666394</p>
+      </div>
+
+      <div className="mb-4">
+        <p className="text-sm mb-1">RECEIPT#{receiptNumber}</p>
+        <p className="text-sm text-gray-600">
           {date.toLocaleDateString('id-ID')} {date.toLocaleTimeString('id-ID')}
         </p>
       </div>
 
-      <div className="border-t border-b border-gray-300 py-2 my-2">
-        <div className="grid grid-cols-12 font-bold">
-          <div className="col-span-6">Item</div>
-          <div className="col-span-2 text-right">Qty</div>
-          <div className="col-span-2 text-right">Price</div>
-          <div className="col-span-2 text-right">Total</div>
+      <div className="mb-4">
+        <p className="text-sm mb-2">{items.length} items (Qty.: {items.reduce((sum, item) => sum + item.quantity, 0)})</p>
+        <div className="space-y-2">
+          {items.map((item) => (
+            <div key={item.id} className="flex justify-between items-start">
+              <div className="flex-1">
+                <p className="text-sm">{item.quantity}x {item.name}</p>
+                <p className="text-xs text-gray-600">{formatCurrency(item.price)}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm">{formatCurrency(item.price * item.quantity)}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="border-b border-gray-300 py-2">
-        {items.map((item) => (
-          <div key={item.id} className="grid grid-cols-12 py-1">
-            <div className="col-span-6">{item.name}</div>
-            <div className="col-span-2 text-right">{item.quantity}</div>
-            <div className="col-span-2 text-right">{formatCurrency(item.price)}</div>
-            <div className="col-span-2 text-right">{formatCurrency(item.price * item.quantity)}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-2">
-        <div className="flex justify-between py-1">
-          <span>Subtotal:</span>
-          <span>{formatCurrency(subtotal)}</span>
-        </div>
-        <div className="flex justify-between py-1">
-          <span>Tax (10%):</span>
-          <span>{formatCurrency(tax)}</span>
-        </div>
-        <div className="flex justify-between py-1 font-bold">
+      <div className="border-t border-gray-200 pt-4 space-y-2">
+        <div className="flex justify-between text-sm">
           <span>Total:</span>
+          <span>{formatCurrency(total)}</span>
+        </div>
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Cash:</span>
           <span>{formatCurrency(total)}</span>
         </div>
       </div>
 
-      <div className="mt-6 text-center">
-        <p>Thank you for shopping with us!</p>
-        <p className="text-sm">www.dagangin.com</p>
+      <div className="text-center mt-6 text-sm">
+        <p className="font-medium mb-1">SIMPAN STRUK INI SEBAGAI</p>
+        <p className="font-medium mb-3">BUKTI PEMBAYARAN YANG SAH</p>
+        <p>• Terima Kasih •</p>
+        <p>Jangan Bosan untuk Kembali</p>
       </div>
     </div>
   );
