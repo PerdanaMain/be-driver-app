@@ -39,6 +39,15 @@ class OrderServices {
     });
   };
 
+  updateOrder = (id, data) => {
+    return this.prisma.orders.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  };
+
   deleteOrder = (id) => {
     return this.prisma.orders.delete({
       where: {

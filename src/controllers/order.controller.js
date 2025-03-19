@@ -85,6 +85,7 @@ class OrderController {
       const order = await OrderServices.createOrder(data);
       await DriverServices.updateDriver(driverId, {
         orderAmounts: driver.orderAmounts + 1,
+        isAssigned: true,
       });
       await PackageServices.updatePackage(packageId, {
         status: order.status,
@@ -94,6 +95,56 @@ class OrderController {
         status: true,
         message: "Order created successfully",
         data: null,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  };
+
+  update = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, driverId } = req.body;
+      const order = await OrderServices.getOrderById(id);
+      const driver = await DriverServices.getDriverById(driverId);
+
+      if (!order) {
+        return res.status(404).json({
+          status: false,
+          message: "Order not found",
+        });
+      }
+
+      if (!driver) {
+        return res.status(404).json({
+          status: false,
+          message: "Driver not found",
+        });
+      }
+
+      if (driver.id !== order.driverId) {
+        await DriverServices.updateDriver(order.driverId, {
+          orderAmounts: driver.orderAmounts - 1,
+          isAssigned: driver.orderAmounts - 1 === 0 ? false : true,
+        });
+        await DriverServices.updateDriver(driverId, {
+          orderAmounts: driver.orderAmounts + 1,
+          isAssigned: true,
+        });
+      }
+
+      await OrderServices.updateOrder(id, {
+        status,
+        driverId,
+        completedAt: status === "done" ? new Date() : null,
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: "Order updated successfully",
       });
     } catch (error) {
       return res.status(500).json({

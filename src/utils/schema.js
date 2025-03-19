@@ -45,3 +45,8 @@ export const orderPost = z.object({
   packageId: z.string(),
   driverId: z.string(),
 });
+
+export const orderPut = z.object({
+  status: z.enum(["done", "shipping"]),
+  driverId: z.string(),
+});
