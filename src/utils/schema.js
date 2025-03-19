@@ -8,6 +8,13 @@ export const driverPost = z.object({
   vehicle_number: z.string().min(5),
   vehicle_type: z.string().min(5),
 });
+export const driverPut = z.object({
+  name: z.string().min(5),
+  phone: z.string().min(8),
+  vehicle_number: z.string().min(5),
+  vehicle_type: z.string().min(5),
+  isActive: z.boolean(),
+});
 
 export const packagePost = z.object({
   receiverName: z.string().min(5),

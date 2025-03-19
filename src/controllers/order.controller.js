@@ -47,7 +47,7 @@ class OrderController {
 
   create = async (req, res) => {
     try {
-      const { packageId, driverId, startedAt } = req.body;
+      const { packageId, driverId } = req.body;
 
       const pkg = await PackageServices.getPackage(packageId);
       const driver = await DriverServices.getDriverById(driverId);
@@ -56,7 +56,7 @@ class OrderController {
       if (existing) {
         return res.status(400).json({
           status: false,
-          message: "Order already exists",
+          message: "The package is already assigned to a driver",
         });
       }
 
@@ -71,6 +71,20 @@ class OrderController {
         return res.status(404).json({
           status: false,
           message: "Driver not found",
+        });
+      }
+
+      if (driver.isActive === false) {
+        return res.status(400).json({
+          status: false,
+          message: "Driver is not active, please select active driver",
+        });
+      }
+
+      if (driver.orderAmounts >= 20) {
+        return res.status(400).json({
+          status: false,
+          message: "Driver has reached the maximum order limit",
         });
       }
 
@@ -141,6 +155,17 @@ class OrderController {
         driverId,
         completedAt: status === "done" ? new Date() : null,
       });
+
+      if (status === "done") {
+        await PackageServices.updatePackage(order.packageId, {
+          status: "delivered",
+        });
+
+        await DriverServices.updateDriver(driverId, {
+          orderAmounts: driver.orderAmounts - 1,
+          isAssigned: driver.orderAmounts - 1 === 0 ? false : true,
+        });
+      }
 
       return res.status(200).json({
         status: true,

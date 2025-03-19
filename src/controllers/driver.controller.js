@@ -21,6 +21,32 @@ class DriverController {
     }
   };
 
+  show = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const driver = await DriverServices.getDriverById(id);
+
+      if (!driver) {
+        return res.status(404).json({
+          status: false,
+          message: "Driver not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: "Driver retrieved successfully",
+        data: driver,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  };
+
   create = async (req, res) => {
     try {
       const { name, email, phone, password, vehicle_number, vehicle_type } =
@@ -61,6 +87,40 @@ class DriverController {
       return res.status(201).json({
         status: true,
         message: "Driver created successfully",
+        data: null,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  };
+
+  update = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, phone, vehicle_number, vehicle_type, isActive } = req.body;
+
+      const driver = await DriverServices.getDriverById(id);
+
+      if (!driver) {
+        return res.status(404).json({
+          status: false,
+          message: "Driver not found",
+        });
+      }
+
+      await DriverServices.updateDriver(id, {
+        name,
+        phone,
+        vehicle_number,
+        vehicle_type,
+        isActive,
+      });
+      return res.status(200).json({
+        status: true,
+        message: "Driver updated successfully",
         data: null,
       });
     } catch (error) {
