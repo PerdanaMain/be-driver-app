@@ -20,6 +20,30 @@ class PackageControllers {
     }
   }
 
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+      const packageData = await PackageServices.getPackage(id);
+
+      if (!packageData)
+        return res.status(404).json({
+          status: false,
+          message: "Package not found",
+        });
+
+      return res.status(200).json({
+        status: true,
+        message: "Package retrieved successfully",
+        data: packageData,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: `Internal server error: ${error.message}`,
+      });
+    }
+  }
+
   async create(req, res) {
     try {
       const {

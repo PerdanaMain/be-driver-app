@@ -7,6 +7,7 @@ const router = express.Router();
 const Packages = new PackageControllers();
 
 router.get("/", Packages.index);
+router.get("/:id", Packages.show);
 router.post("/", validateRequest(packagePost), Packages.create);
 router.put("/:id", validateRequest(packagePut), Packages.update);
 router.delete("/:id", Packages.destroy);
