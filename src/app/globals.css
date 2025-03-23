@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.print-style {
+  @media print {
+    width: 80mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 5mm;
+  }
+}

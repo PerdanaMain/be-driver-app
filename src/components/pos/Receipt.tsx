@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import Image from "next/image";
 
 interface ReceiptProps {
   items: {
@@ -31,20 +32,20 @@ const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(
     return (
       <div
         ref={ref}
-        className="bg-white p-6 max-w-md mx-auto print:max-w-full receipt-content"
+        className="bg-white p-6 max-w-md mx-auto print:max-w-full receipt-content print-style"
         style={{
           fontFamily: "monospace",
           fontSize: "13px",
-          "@media print": {
-            width: "80mm",
-            minHeight: "297mm",
-            margin: 0,
-            padding: "5mm",
-          },
         }}
       >
         <div className="flex items-center justify-center mb-4">
-          <img src="/logo.svg" alt="DH" className="w-12 h-12" />
+          <Image
+            src="/logo.svg"
+            alt="DH"
+            width={48}
+            height={48}
+            className="w-12 h-12"
+          />
         </div>
 
         <div className="text-center mb-6">

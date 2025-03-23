@@ -1,37 +1,37 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import { CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import { CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
   const [errors, setErrors] = useState({
-    username: '',
-    password: '',
-    general: ''
+    username: "",
+    password: "",
+    general: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
@@ -39,23 +39,23 @@ export default function LoginPage() {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
-      username: '',
-      password: '',
-      general: ''
+      username: "",
+      password: "",
+      general: "",
     };
 
     // Email validation
     if (!formData.username) {
-      newErrors.username = 'Email is required';
+      newErrors.username = "Email is required";
       isValid = false;
     }
 
     // Password validation
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
       isValid = false;
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = "Password must be at least 6 characters";
       isValid = false;
     }
 
@@ -65,32 +65,33 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
-    setErrors(prev => ({ ...prev, general: '' }));
+    setErrors((prev) => ({ ...prev, general: "" }));
 
     try {
       // This is a mock authentication - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, hardcoded credentials check, don't forget to change 
-      if (formData.username === 'kasir' && formData.password === 'akukasir') {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // For demo purposes, hardcoded credentials check, don't forget to change
+      if (formData.username === "kasir" && formData.password === "akukasir") {
         // Simulate successful login
         // In a real app, you would store auth token, user info, etc.
-        localStorage.setItem('isLoggedIn', 'true');
-        router.push('/pos');
+        localStorage.setItem("isLoggedIn", "true");
+        router.push("/pos");
       } else {
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
-          general: 'Invalid email or password'
+          general: "Invalid email or password",
         }));
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        general: 'An error occurred. Please try again.'
+        general: "An error occurred. Please try again.",
       }));
     } finally {
       setIsLoading(false);
@@ -102,10 +103,14 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           <CardHeader className="bg-blue-50 dark:bg-gray-700 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dagangin POS</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Sign in to your account</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Dagangin POS
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Sign in to your account
+            </p>
           </CardHeader>
-          
+
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
               {errors.general && (
@@ -113,7 +118,7 @@ export default function LoginPage() {
                   <p className="text-sm text-red-600">{errors.general}</p>
                 </div>
               )}
-              
+
               <div>
                 <Input
                   label="Username"
@@ -125,13 +130,24 @@ export default function LoginPage() {
                   error={errors.username}
                   fullWidth
                   leftIcon={
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
                     </svg>
                   }
                 />
               </div>
-              
+
               <div>
                 <Input
                   label="Password"
@@ -143,13 +159,24 @@ export default function LoginPage() {
                   error={errors.password}
                   fullWidth
                   leftIcon={
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
                     </svg>
                   }
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -158,19 +185,25 @@ export default function LoginPage() {
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                  >
                     Remember me
                   </label>
                 </div>
-                
+
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                  <a
+                    href="#"
+                    className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                  >
                     Forgot password?
                   </a>
                 </div>
               </div>
             </CardContent>
-            
+
             <CardFooter className="bg-gray-50 dark:bg-gray-700">
               <div className="space-y-4 w-full">
                 <Button
@@ -182,10 +215,13 @@ export default function LoginPage() {
                 >
                   Sign in
                 </Button>
-                
+
                 <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                  Don't have an account?{' '}
-                  <Link href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    href="#"
+                    className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                  >
                     Sign up
                   </Link>
                 </p>
