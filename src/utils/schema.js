@@ -46,6 +46,7 @@ export const packagePut = z.object({
   packageWeight: z.number(),
   packagePrice: z.number(),
   packageDescription: z.string().min(5),
+  status: z.enum(["pending", "shipping", "done"]),
 });
 
 export const orderPost = z.object({

@@ -111,6 +111,7 @@ class PackageControllers {
         packageDescription,
         packageWeight,
         packagePrice,
+        status,
       } = req.body;
 
       const packageData = await PackageServices.getPackage(id);
@@ -134,7 +135,7 @@ class PackageControllers {
         receiver_longitude: receiverLongitude,
         weight: packageWeight,
         description: packageDescription,
-        status: "pending",
+        status: status,
         price: packagePrice,
       };
 
