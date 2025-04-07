@@ -17,6 +17,7 @@ class UserServices {
             name: true,
           },
         },
+        driver: true, // Include the driver relation
       },
     });
   }
