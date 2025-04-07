@@ -73,6 +73,7 @@ class AuthControllers {
           email: user.email,
           name: user.driver?.name || "admin",
           roleName: user.roles.name,
+          driverId: user.driver?.id || null,
         },
         config.jwtSecret,
         { expiresIn: "1h" }
@@ -94,6 +95,7 @@ class AuthControllers {
             email: user.email,
             name: user.driver?.name || "admin",
             role: user.roles.name,
+            driverId: user.driver?.id || null,
           },
         },
       });
