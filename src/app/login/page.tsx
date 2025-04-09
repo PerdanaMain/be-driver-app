@@ -6,16 +6,17 @@ import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [errors, setErrors] = useState({
-    username: "",
+    email: "",
     password: "",
     general: "",
   });
@@ -39,14 +40,14 @@ export default function LoginPage() {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
-      username: "",
+      email: "",
       password: "",
       general: "",
     };
 
     // Email validation
-    if (!formData.username) {
-      newErrors.username = "Email is required";
+    if (!formData.email) {
+      newErrors.email = "Email is required";
       isValid = false;
     }
 
@@ -75,18 +76,37 @@ export default function LoginPage() {
       // This is a mock authentication - replace with actual API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // For demo purposes, hardcoded credentials check, don't forget to change
-      if (formData.username === "kasir" && formData.password === "akukasir") {
-        // Simulate successful login
-        // In a real app, you would store auth token, user info, etc.
-        localStorage.setItem("isLoggedIn", "true");
-        router.push("/pos");
-      } else {
+      const post = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
+      const data = await post.json();
+      console.log(data);
+
+      if (!post.ok) {
+        const error = data.error || "Something went wrong";
         setErrors((prev) => ({
           ...prev,
-          general: "Invalid email or password",
+          general: error,
         }));
+        return;
       }
+
+      Cookies.set("token", data.data.token, { expires: 7 }); // Set token in cookies
+
+      // Redirect to dashboard or home page
+      router.push("/admin");
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setErrors((prev) => ({
@@ -121,13 +141,13 @@ export default function LoginPage() {
 
               <div>
                 <Input
-                  label="Username"
+                  label="Email"
                   type="text"
-                  name="username"
-                  placeholder="username"
-                  value={formData.username}
+                  name="email"
+                  placeholder="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  error={errors.username}
+                  error={errors.email}
                   fullWidth
                   leftIcon={
                     <svg

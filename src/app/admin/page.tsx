@@ -1,5 +1,3 @@
-import React from "react";
-
 const Page = () => {
   return (
     <main className="px-8 py-6">
