@@ -1,19 +1,15 @@
+import Navbar from "@/components/admin/Navbar";
+import Sidebar from "@/components/admin/Sidebar";
 import React from "react";
-import SidebarAdmin from "@/components/admin/Sidebar";
-import NavbarAdmin from "@/components/admin/Navbar";
 
 const Page = () => {
   return (
-    <div className="font-inter grid grid-cols-5 max-w-screen-2xl mx-auto border-x-2 border-gray-100">
-      {/* /sidebar */}
-      <SidebarAdmin />
-      {/* /sidebar */}
+    <div className="grid grid-cols-5 max-w-screen-2xl mx-auto border-x-2 border-gray-100">
+      <Sidebar />
 
       {/* Main */}
       <div className="col-span-4 bg-gray-100 ">
-        {/* Nav */}
-        <NavbarAdmin />
-        {/* /Nav */}
+        <Navbar />
 
         {/* Main Section */}
         <section className="px-8 py-6">

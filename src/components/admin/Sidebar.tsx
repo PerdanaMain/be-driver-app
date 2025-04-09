@@ -1,6 +1,6 @@
 import React from "react";
 
-const SidebarAdmin = () => {
+const Sidebar = () => {
   return (
     <div className="col-span-1 h-screen px-7 py-8 bg-white border-r border-r-gray-100">
       <div className="font-bold text-lg pl-6 flex items-center space-x-3">
@@ -14,13 +14,11 @@ const SidebarAdmin = () => {
             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
           </svg>
         </span>
-        <span className="text-black">We Team</span>
+        <span>We Team</span>
       </div>
-
-      {/* Items */}
       <div className="mt-12">
         <ul className="flex flex-col space-y-3 text-gray-500  text-sm sidebar-menu">
-          <li className="flex space-x-3 items-center px-6 py-3 rounded-lg text-indigo-600 bg-indigo-100">
+          <li className="flex space-x-3 items-center px-6 py-3 rounded-lg ">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +37,7 @@ const SidebarAdmin = () => {
             </span>
             <span>Dashboard</span>
           </li>
-          <li className="flex space-x-3 items-center font-medium  px-6 py-3 rounded-lg">
+          <li className="flex space-x-3 items-center font-medium text-indigo-600 bg-indigo-100 px-6 py-3 rounded-lg">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,4 +132,4 @@ const SidebarAdmin = () => {
   );
 };
 
-export default SidebarAdmin;
+export default Sidebar;
