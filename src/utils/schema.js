@@ -58,3 +58,10 @@ export const orderPut = z.object({
   status: z.enum(["done", "shipping"]),
   driverId: z.string(),
 });
+
+export const trackingPost = z.object({
+  latitude: z.string(),
+  longitude: z.string(),
+  driverId: z.string(),
+  packageId: z.string(),
+});

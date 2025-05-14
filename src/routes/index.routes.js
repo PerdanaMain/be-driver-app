@@ -9,6 +9,7 @@ import senderRoutes from "./sender.routes.js";
 import roleRoutes from "./role.routes.js";
 import driverRoutes from "./driver.routes.js";
 import orderRoutes from "./order.routes.js";
+import trackingRoutes from "./tracking.routes.js";
 
 import VerifyToken from "../middlewares/verifyToken.middlewares.js";
 
@@ -37,6 +38,7 @@ router.use(prefix + "/roles", roleRoutes);
 router.use(prefix + "/packages", packageRoutes);
 router.use(prefix + "/drivers", driverRoutes);
 router.use(prefix + "/orders", orderRoutes);
+router.use(prefix + "/tracking", trackingRoutes);
 
 // unused routes
 router.use(prefix + "/receivers", receiverRoutes);
