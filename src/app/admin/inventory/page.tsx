@@ -4,13 +4,7 @@ import InventoryList from "@/components/admin/InventoryList";
 import Cookies from "js-cookie";
 import useSWR from "swr";
 
-export interface Inventory {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-}
+import { Inventory } from "@/interfaces";
 
 const Page = () => {
   const token = Cookies.get("token");
@@ -21,14 +15,14 @@ const Page = () => {
       },
     }).then((res) => res.json());
 
-  const { data, isLoading:isLoadingInventory } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/inventory`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  const {
+    data,
+    isLoading: isLoadingInventory,
+    mutate: inventoryMutate,
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/inventory`, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
   const inventory = data?.data as Inventory[];
 
   return (
@@ -39,7 +33,11 @@ const Page = () => {
       </div>
 
       <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
-        <InventoryList inventory={inventory || []} isLoading={isLoadingInventory} />
+        <InventoryList
+          inventory={inventory || []}
+          isLoading={isLoadingInventory}
+          mutate={inventoryMutate}
+        />
       </div>
     </main>
   );

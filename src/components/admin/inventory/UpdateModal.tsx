@@ -7,12 +7,51 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
+  Input,
 } from "@heroui/react";
-
+import { Inventory } from "@/interfaces";
+import { useState } from "react";
+import Cookies from "js-cookie";
 import { Pencil, Save, XCircle } from "lucide-react";
+import toast from 'react-hot-toast';
 
-const UpdateInventoryModal = () => {
+const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mutate: ()=> void }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [onSubmit, setOnSubmit] = useState(false);
+  const [formState, setFormState] = useState({
+    name: inventory.name,
+    description: inventory.description,
+  });
+
+  const handleUpdate = () => {
+    try{
+      setOnSubmit(true);
+      const token = Cookies.get("token");
+
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/inventory/${inventory.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formState),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status == true) {
+            toast.success(data.message || "Inventory updated successfully");
+            mutate();
+            setOnSubmit(false);
+            onOpenChange();
+          } else {
+            toast.error(data.message || "Failed to update inventory");
+          }
+        });
+    }
+    catch (error) {
+      console.error("Error updating inventory:", error);
+    }
+  };
 
   return (
     <>
@@ -74,8 +113,32 @@ const UpdateInventoryModal = () => {
 
               <Divider />
 
-              <ModalBody>
-                <div className="space-y-4 text-base font-bold text-gray-800"></div>
+              <ModalBody className="space-y-4 text-base font-bold text-gray-800">
+                <label className="text-sm text-gray-600">Inventory Name</label>
+                <Input
+                  placeholder="Enter inventory name"
+                  value={formState.name}
+                  onChange={(e) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
+                  className="w-full"
+                />
+
+                <label className="text-sm text-gray-600">Description Name</label>
+                <Input
+                  placeholder="Enter description name"
+                  value={formState.description}
+                  onChange={(e) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                  className="w-full"
+                />
               </ModalBody>
 
               <Divider />
@@ -87,14 +150,17 @@ const UpdateInventoryModal = () => {
                   onPress={onClose}
                   startContent={<XCircle size={16} />}
                 >
-                  Batal
+                  Cancel
                 </Button>
                 <Button
                   color="primary"
                   className="bg-blue-600 cursor-pointer"
                   startContent={<Save size={16} />}
+                  onPress={() => {
+                    handleUpdate();
+                  }}
                 >
-                  Simpan
+                  {onSubmit ? "Proccessing..." : "Save"}
                 </Button>
               </ModalFooter>
             </>

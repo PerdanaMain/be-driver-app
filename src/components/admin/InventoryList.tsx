@@ -1,5 +1,7 @@
 import React from "react";
-import { Inventory } from "@/app/admin/inventory/page";
+import { Inventory } from "@/interfaces";
+import { Toaster } from "react-hot-toast";
+
 import {
   Table,
   TableHeader,
@@ -15,9 +17,11 @@ import { DeleteIcon } from "lucide-react";
 export default function InventoryList({
   inventory,
   isLoading,
+  mutate,
 }: {
   inventory: Inventory[];
   isLoading: boolean;
+  mutate: () => void;
 }) {
   const columns = [
     {
@@ -35,9 +39,8 @@ export default function InventoryList({
   ];
 
   const renderCell = React.useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (item: { [x: string]: any }, columnKey: string | number) => {
-      const cellValue = item[columnKey];
+    (item: Inventory, columnKey: string | number) => {
+      const cellValue = item[columnKey as keyof Inventory];
 
       switch (columnKey) {
         case "name":
@@ -47,7 +50,7 @@ export default function InventoryList({
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-              <UpdateInventoryModal />
+              <UpdateInventoryModal inventory={item} mutate={mutate} />
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <DeleteIcon />
               </span>
@@ -61,28 +64,36 @@ export default function InventoryList({
   );
 
   return (
-    <Table aria-label="Inventory table" isStriped className="w-full">
-      <TableHeader columns={columns} className="border-b border-gray-200">
-        {(column) => (
-          <TableColumn
-            key={column.key}
-            className="text-left border-b border-gray-200"
-          >
-            {column.label}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={inventory} emptyContent={"No rows to display."} loadingContent={"Loading..."} isLoading={isLoading}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell className="border-b border-gray-200">
-                {renderCell(item, columnKey)}
-              </TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Toaster />
+      <Table aria-label="Inventory table" isStriped className="w-full">
+        <TableHeader columns={columns} className="border-b border-gray-200">
+          {(column) => (
+            <TableColumn
+              key={column.key}
+              className="text-left border-b border-gray-200"
+            >
+              {column.label}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          items={inventory}
+          emptyContent={"No rows to display."}
+          loadingContent={"Loading..."}
+          isLoading={isLoading}
+        >
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell className="border-b border-gray-200">
+                  {renderCell(item, columnKey)}
+                </TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }
