@@ -1,72 +1,44 @@
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@heroui/react";
+import React from "react";
+import { Inventory } from "@/app/admin/inventory/page";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/react";
 
-const rows = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    role: "CEO",
-    status: "Active",
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    status: "Paused",
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    status: "Active",
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    role: "Community Manager",
-    status: "Vacation",
-  },
-];
 
-const columns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "role",
-    label: "ROLE",
-  },
-  {
-    key: "status",
-    label: "STATUS",
-  },
-];
-
-const InventoryList = () => {
+export default function InventoryList({
+  inventory,
+}: {
+  inventory: Inventory[];
+}) {
   return (
-    <Table aria-label="Example table with dynamic content">
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+    <Table aria-label="Example static collection table">
+      <TableHeader>
+        <TableColumn>NAME</TableColumn>
+        <TableColumn>ROLE</TableColumn>
+        <TableColumn>STATUS</TableColumn>
       </TableHeader>
-      <TableBody items={rows}>
-        {(item) => (
-          <TableRow key={item.key}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
+      <TableBody>
+        <TableRow key="1">
+          <TableCell>Tony Reichert</TableCell>
+          <TableCell>CEO</TableCell>
+          <TableCell>Active</TableCell>
+        </TableRow>
+        <TableRow key="2">
+          <TableCell>Zoey Lang</TableCell>
+          <TableCell>Technical Lead</TableCell>
+          <TableCell>Paused</TableCell>
+        </TableRow>
+        <TableRow key="3">
+          <TableCell>Jane Fisher</TableCell>
+          <TableCell>Senior Developer</TableCell>
+          <TableCell>Active</TableCell>
+        </TableRow>
+        <TableRow key="4">
+          <TableCell>William Howard</TableCell>
+          <TableCell>Community Manager</TableCell>
+          <TableCell>Vacation</TableCell>
+        </TableRow>
       </TableBody>
     </Table>
-  );
-};
 
-export default InventoryList;
+  );
+}
+

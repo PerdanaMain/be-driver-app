@@ -1,19 +1,44 @@
 "use client";
 
 import InventoryList from "@/components/admin/InventoryList";
+import Cookies from "js-cookie";
+import useSWR from "swr";
+
+export interface Inventory {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
 
 const Page = () => {
+  const token = Cookies.get("token");
+  const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => res.json());
+
+  const { data } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/inventory`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const inventory = data?.data as Inventory[];
+
   return (
-    <main className="px-8 py-6">
+    <main className="py-6 px-6 sm:px-2 lg:px-5">
       {/* attendance */}
-      <div className="bg-white rounded-2xl w-full px-6 py-4 flex items-center text-gray-800 justify-between ">
-        <div className="flex items-center ">
+      <div className="bg-white rounded-2xl w-full px-6 py-4 text-gray-800">
           <h1 className="text-lg font-semibold">Inventory</h1>
-        </div>
       </div>
-      <div className="bg-white rounded-2xl w-full px-6 py-4 flex items-center text-gray-800 justify-between mt-4">
-        <InventoryList />
-      </div>
+
+      <InventoryList inventory={inventory || []} />
     </main>
   );
 };
