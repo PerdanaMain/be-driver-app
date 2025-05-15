@@ -1,67 +1,69 @@
 import {
   Button,
   Divider,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   useDisclosure,
-  Input,
 } from "@heroui/react";
-import { Inventory } from "@/interfaces";
+// import { Inventory } from "@/interfaces";
 import { useState } from "react";
-import Cookies from "js-cookie";
-import { Pencil, Save, XCircle } from "lucide-react";
-import toast from 'react-hot-toast';
+// import Cookies from "js-cookie";
+import { SquarePlus, Save, XCircle } from "lucide-react";
+// import toast from 'react-hot-toast';
 
-const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mutate: ()=> void }) => {
+const AddInventoryModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [onSubmit, setOnSubmit] = useState(false);
   const [formState, setFormState] = useState({
-    name: inventory.name,
-    description: inventory.description,
+    name: "",
+    description: "",
   });
 
-  const handleUpdate = () => {
-    try{
+  const handleCreate = () => {
+    try {
       setOnSubmit(true);
-      const token = Cookies.get("token");
+      // const token = Cookies.get("token");
 
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/inventory/${inventory.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formState),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status == true) {
-            toast.success(data.message || "Inventory updated successfully");
-            mutate();
-            setOnSubmit(false);
-            onOpenChange();
-          } else {
-            toast.error(data.message || "Failed to update inventory");
-          }
-        });
-    }
-    catch (error) {
+      // fetch(`${process.env.NEXT_PUBLIC_API_URL}/inventory/${inventory.id}`, {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(formState),
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     if (data.status == true) {
+      //       toast.success(data.message || "Inventory updated successfully");
+      //       mutate();
+      //       setOnSubmit(false);
+      //       onOpenChange();
+      //     } else {
+      //       toast.error(data.message || "Failed to update inventory");
+      //     }
+      //   });
+    } catch (error) {
       console.error("Error updating inventory:", error);
     }
   };
 
   return (
-    <>
+    <div className="ms-4">
       <Button
         onPress={onOpen}
         isIconOnly
-        className="cursor-pointer active:opacity-50"
+        className="cursor-pointer active:opacity-50 w-[150px] border rounded-md mt-4"
         aria-label="Edit inventory"
       >
-        <Pencil size={18} />
+        <SquarePlus size={18} />
+        <span className="text-sm font-semibold text-gray-800">
+          Add Inventory
+        </span>
       </Button>
 
       <Modal
@@ -104,10 +106,10 @@ const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mut
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="text-xl font-bold text-gray-800">
-                  Update Inventory
+                  Add New Inventory
                 </div>
                 <div className="text-sm text-gray-500">
-                  Please update the inventory information below
+                  Fill in the details below to add a new inventory item.
                 </div>
               </ModalHeader>
 
@@ -127,7 +129,9 @@ const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mut
                   className="w-full"
                 />
 
-                <label className="text-sm text-gray-600">Description Name</label>
+                <label className="text-sm text-gray-600">
+                  Description Name
+                </label>
                 <Input
                   placeholder="Enter description name"
                   value={formState.description}
@@ -157,7 +161,7 @@ const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mut
                   className="bg-blue-600 cursor-pointer"
                   startContent={<Save size={16} />}
                   onPress={() => {
-                    handleUpdate();
+                    handleCreate();
                   }}
                 >
                   {onSubmit ? "Proccessing..." : "Save"}
@@ -167,8 +171,8 @@ const UpdateInventoryModal = ({ inventory, mutate }: { inventory: Inventory, mut
           )}
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
 };
 
-export default UpdateInventoryModal;
+export default AddInventoryModal;

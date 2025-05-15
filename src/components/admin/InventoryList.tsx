@@ -60,7 +60,7 @@ export default function InventoryList({
           return cellValue;
       }
     },
-    []
+    [mutate]
   );
 
   return (

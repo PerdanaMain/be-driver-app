@@ -3,7 +3,7 @@
 import InventoryList from "@/components/admin/InventoryList";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-
+import AddInventoryModal from "@/components/admin/inventory/AddModal";
 import { Inventory } from "@/interfaces";
 
 const Page = () => {
@@ -33,6 +33,7 @@ const Page = () => {
       </div>
 
       <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
+        <AddInventoryModal />
         <InventoryList
           inventory={inventory || []}
           isLoading={isLoadingInventory}
