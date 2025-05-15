@@ -21,7 +21,7 @@ const Page = () => {
       },
     }).then((res) => res.json());
 
-  const { data } = useSWR(
+  const { data, isLoading:isLoadingInventory } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/inventory`,
     fetcher,
     {
@@ -35,10 +35,12 @@ const Page = () => {
     <main className="py-6 px-6 sm:px-2 lg:px-5">
       {/* attendance */}
       <div className="bg-white rounded-2xl w-full px-6 py-4 text-gray-800">
-          <h1 className="text-lg font-semibold">Inventory</h1>
+        <h1 className="text-lg font-semibold">Inventory</h1>
       </div>
 
-      <InventoryList inventory={inventory || []} />
+      <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
+        <InventoryList inventory={inventory || []} isLoading={isLoadingInventory} />
+      </div>
     </main>
   );
 };
