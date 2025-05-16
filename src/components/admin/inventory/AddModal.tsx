@@ -11,11 +11,11 @@ import {
 } from "@heroui/react";
 // import { Inventory } from "@/interfaces";
 import { useState } from "react";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import { SquarePlus, Save, XCircle } from "lucide-react";
-// import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
-const AddInventoryModal = () => {
+const AddInventoryModal = ({ mutate }: { mutate: () => void }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [onSubmit, setOnSubmit] = useState(false);
   const [formState, setFormState] = useState({
@@ -26,27 +26,27 @@ const AddInventoryModal = () => {
   const handleCreate = () => {
     try {
       setOnSubmit(true);
-      // const token = Cookies.get("token");
+      const token = Cookies.get("token");
 
-      // fetch(`${process.env.NEXT_PUBLIC_API_URL}/inventory/${inventory.id}`, {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   body: JSON.stringify(formState),
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     if (data.status == true) {
-      //       toast.success(data.message || "Inventory updated successfully");
-      //       mutate();
-      //       setOnSubmit(false);
-      //       onOpenChange();
-      //     } else {
-      //       toast.error(data.message || "Failed to update inventory");
-      //     }
-      //   });
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/inventory`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formState),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status == true) {
+            toast.success(data.message || "Inventory updated successfully");
+            mutate();
+            setOnSubmit(false);
+            onOpenChange();
+          } else {
+            toast.error(data.message || "Failed to update inventory");
+          }
+        });
     } catch (error) {
       console.error("Error updating inventory:", error);
     }

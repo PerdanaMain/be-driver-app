@@ -33,7 +33,7 @@ const Page = () => {
       </div>
 
       <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
-        <AddInventoryModal />
+        <AddInventoryModal mutate={inventoryMutate} />
         <InventoryList
           inventory={inventory || []}
           isLoading={isLoadingInventory}
