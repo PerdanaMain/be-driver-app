@@ -9,7 +9,6 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@heroui/react";
-// import { Inventory } from "@/interfaces";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { SquarePlus, Save, XCircle } from "lucide-react";
@@ -53,7 +52,7 @@ const AddInventoryModal = ({ mutate }: { mutate: () => void }) => {
   };
 
   return (
-    <div className="ms-4">
+    <>
       <Button
         onPress={onOpen}
         isIconOnly
@@ -171,7 +170,7 @@ const AddInventoryModal = ({ mutate }: { mutate: () => void }) => {
           )}
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 };
 
