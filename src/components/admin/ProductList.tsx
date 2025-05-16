@@ -1,7 +1,7 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { Product } from "@/interfaces";
-
+import { Inventory, Product } from "@/interfaces";
+import AddProductModal from "./products/AddModal";
 
 import {
   Table,
@@ -14,10 +14,12 @@ import {
 
 const ProductList = ({
   products,
+  inventory,
   isLoading,
-//   mutate,
+  mutate,
 }: {
   products: Product[];
+  inventory: Inventory[];
   isLoading: boolean;
   mutate: () => void;
 }) => {
@@ -78,8 +80,12 @@ const ProductList = ({
   );
 
   const topContent = React.useMemo(() => {
-    return <div className="flex items-center justify-start"></div>;
-  }, []);
+    return (
+      <div className="flex items-center justify-start">
+        <AddProductModal mutate={mutate} inventory={inventory} />
+      </div>
+    );
+  }, [mutate, inventory]);
 
   return (
     <>

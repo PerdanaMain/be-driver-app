@@ -2,7 +2,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { Product } from "@/interfaces";
+import { Inventory, Product } from "@/interfaces";
 import ProductList from "@/components/admin/ProductList";
 
 const Page = () => {
@@ -23,7 +23,17 @@ const Page = () => {
     revalidateOnReconnect: false,
   });
 
+  const {
+    data: inventoryData,
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/inventory`, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+
+  
+  
   const products = data?.data as Product[];
+  const inventory = inventoryData?.data as Inventory[];
 
   return (
     <main className="py-6 px-6 sm:px-2 lg:px-5">
@@ -35,6 +45,7 @@ const Page = () => {
       <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
         <ProductList
           products={products || []}
+          inventory={inventory || []}
           isLoading={isLoadingProduct}
           mutate={mutateProduct}
         />
