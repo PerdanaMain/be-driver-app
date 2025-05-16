@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
+import DeleteProductModal from "./products/DeleteModal";
 
 const ProductList = ({
   products,
@@ -71,14 +72,14 @@ const ProductList = ({
             <div className="relative flex items-center gap-2">
               <DetailProductModal product={item} />
               {/* <UpdateInventoryModal inventory={item} mutate={mutate} /> */}
-              {/* <DeleteInventoryModal inventory={item} mutate={mutate} /> */}
+              <DeleteProductModal product={item} mutate={mutate} />
             </div>
           );
         default:
           return String(cellValue);
       }
     },
-    []
+    [mutate]
   );
 
   const topContent = React.useMemo(() => {
