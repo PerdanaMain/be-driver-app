@@ -14,7 +14,7 @@ export interface Product {
   price: number;
   image: string;
   inventory: Inventory;
-  inventory_id: string;
+  inventoryId: string;
   created_at: string;
   updated_at: string;
 }

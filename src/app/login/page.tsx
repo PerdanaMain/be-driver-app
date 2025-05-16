@@ -91,7 +91,6 @@ export default function LoginPage() {
       );
 
       const data = await post.json();
-      console.log(data);
 
       if (!post.ok) {
         const error = data.error || "Something went wrong";
@@ -103,6 +102,7 @@ export default function LoginPage() {
       }
 
       Cookies.set("token", data.data.token, { expires: 7 }); // Set token in cookies
+      Cookies.set("auth", JSON.stringify(data.data.admin), { expires: 7 }); // Set admin in cookies
 
       // Redirect to dashboard or home page
       router.push("/admin");
