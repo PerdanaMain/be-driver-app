@@ -1,6 +1,7 @@
-import { Inventory } from "@/interfaces";
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import { Product } from "@/interfaces";
+
 
 import {
   Table,
@@ -10,19 +11,16 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import AddInventoryModal from "./inventory/AddModal";
-import DeleteInventoryModal from "./inventory/DeleteModal";
-import UpdateInventoryModal from "./inventory/UpdateModal";
 
-export default function InventoryList({
-  inventory,
+const ProductList = ({
+  products,
   isLoading,
-  mutate,
+//   mutate,
 }: {
-  inventory: Inventory[];
+  products: Product[];
   isLoading: boolean;
   mutate: () => void;
-}) {
+}) => {
   const columns = [
     {
       key: "name",
@@ -33,46 +31,64 @@ export default function InventoryList({
       label: "DESCRIPTION",
     },
     {
+      key: "stock",
+      label: "STOCK",
+    },
+    {
+      key: "price",
+      label: "PRICE",
+    },
+    {
+      key: "inventory",
+      label: "INVENTORY",
+    },
+    {
       key: "actions",
       label: "ACTIONS",
     },
   ];
 
   const renderCell = React.useCallback(
-    (item: Inventory, columnKey: string | number) => {
-      const cellValue = item[columnKey as keyof Inventory];
+    (item: Product, columnKey: string | number) => {
+      const cellValue = item[columnKey as keyof Product];
 
       switch (columnKey) {
         case "name":
-          return cellValue;
+          return String(cellValue);
         case "description":
-          return cellValue;
+          return String(cellValue);
+        case "stock":
+          return String(cellValue);
+        case "price":
+          return String(cellValue);
+        case "inventory":
+          return item.inventory?.name ?? "";
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-              <UpdateInventoryModal inventory={item} mutate={mutate} />
-              <DeleteInventoryModal inventory={item} mutate={mutate} />
+              {/* <UpdateInventoryModal inventory={item} mutate={mutate} /> */}
+              {/* <DeleteInventoryModal inventory={item} mutate={mutate} /> */}
             </div>
           );
         default:
-          return cellValue;
+          return String(cellValue);
       }
     },
-    [mutate]
+    []
   );
 
   const topContent = React.useMemo(() => {
-    return (
-      <div className="flex items-center justify-start">
-        <AddInventoryModal mutate={mutate} />
-      </div>
-    );
-  }, [mutate]);
+    return <div className="flex items-center justify-start"></div>;
+  }, []);
 
   return (
     <>
       <Toaster />
-      <Table aria-label="Inventory table" isStriped className="w-full" topContent={topContent}>
+      <Table
+        aria-label="Inventory table"
+        className="w-full"
+        topContent={topContent}
+      >
         <TableHeader columns={columns} className="border-b border-gray-200">
           {(column) => (
             <TableColumn
@@ -84,7 +100,7 @@ export default function InventoryList({
           )}
         </TableHeader>
         <TableBody
-          items={inventory}
+          items={products}
           emptyContent={"No rows to display."}
           loadingContent={"Loading..."}
           isLoading={isLoading}
@@ -102,4 +118,6 @@ export default function InventoryList({
       </Table>
     </>
   );
-}
+};
+
+export default ProductList;
