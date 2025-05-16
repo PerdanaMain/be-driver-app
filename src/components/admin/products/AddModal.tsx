@@ -64,8 +64,6 @@ const AddProductModal = ({
         formData.append("image", formState.image);
       }
 
-      console.log("Sending form data to backend...");
-
       const token = Cookies.get("token");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/products`,

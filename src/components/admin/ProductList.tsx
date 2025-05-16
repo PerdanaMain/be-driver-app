@@ -2,6 +2,7 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Inventory, Product } from "@/interfaces";
 import AddProductModal from "./products/AddModal";
+import DetailProductModal from "./products/DetailModal";
 
 import {
   Table,
@@ -68,6 +69,7 @@ const ProductList = ({
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
+              <DetailProductModal product={item} />
               {/* <UpdateInventoryModal inventory={item} mutate={mutate} /> */}
               {/* <DeleteInventoryModal inventory={item} mutate={mutate} /> */}
             </div>
