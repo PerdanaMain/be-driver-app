@@ -14,7 +14,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { SquarePlus, Save, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import { Inventory } from "@/interfaces";
+import { Inventory } from "@/utils/interfaces";
 
 const AddProductModal = ({
   mutate,

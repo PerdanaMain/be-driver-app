@@ -3,7 +3,7 @@
 import InventoryList from "@/components/admin/inventory/InventoryList";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { Inventory } from "@/interfaces";
+import { Inventory } from "@/utils/interfaces";
 
 const Page = () => {
   const token = Cookies.get("token");

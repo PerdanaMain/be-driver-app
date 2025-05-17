@@ -2,7 +2,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { Order } from "@/interfaces";
+import { Order } from "@/utils/interfaces";
 import OrderList from "@/components/admin/orders/OrderList";
 
 
@@ -18,7 +18,6 @@ const Page = () => {
   const {
     data,
     isLoading: isLoadingOrder,
-    mutate: mutateOrder,
   } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/invoices`, fetcher, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -36,7 +35,6 @@ const Page = () => {
         <OrderList
           orders={orders || []}
           isLoading={isLoadingOrder}
-          mutate={mutateOrder}
         />
       </div>
     </main>

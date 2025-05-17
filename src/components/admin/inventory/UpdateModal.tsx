@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Input,
 } from "@heroui/react";
-import { Inventory } from "@/interfaces";
+import { Inventory } from "@/utils/interfaces";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { Pencil, Save, XCircle } from "lucide-react";

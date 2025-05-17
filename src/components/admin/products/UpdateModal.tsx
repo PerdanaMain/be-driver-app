@@ -14,7 +14,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { Pencil, Save, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import { Product, Inventory } from "@/interfaces";
+import { Product, Inventory } from "@/utils/interfaces";
 
 const UpdateProductModal = ({
   mutate,

@@ -2,7 +2,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { Inventory, Product } from "@/interfaces";
+import { Inventory, Product } from "@/utils/interfaces";
 import ProductList from "@/components/admin/products/ProductList";
 
 const Page = () => {

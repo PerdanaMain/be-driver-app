@@ -1,4 +1,4 @@
-import { Inventory } from "@/interfaces";
+import { Inventory } from "@/utils/interfaces";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -148,7 +148,7 @@ export default function InventoryList({
                 <Spinner color="primary" label="Loading inventory..." />
               </div>
             }
-            isLoading={false} // We're handling loading state separately
+            isLoading={false}
           >
             {(item) => (
               <TableRow

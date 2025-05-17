@@ -1,4 +1,4 @@
-import { Inventory, Product } from "@/interfaces";
+import { Inventory, Product } from "@/utils/interfaces";
 import {
   Table,
   TableBody,

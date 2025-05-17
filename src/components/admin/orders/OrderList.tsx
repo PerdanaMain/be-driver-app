@@ -1,4 +1,4 @@
-import { Order } from "@/interfaces";
+import { Order } from "@/utils/interfaces";
 import {
     Button,
     Table,
@@ -118,7 +118,6 @@ const CustomPagination = ({
   );
 };
 
-// Komponen SearchInput yang diperindah
 const SearchInput = ({
   value,
   onValueChange,
@@ -181,7 +180,6 @@ const SearchInput = ({
   );
 };
 
-// Komponen untuk Avatar
 const Avatar = ({ name }: { name: string }) => {
   const initial = name.charAt(0).toUpperCase();
   let bgColor = "bg-blue-100";
@@ -211,11 +209,10 @@ const Avatar = ({ name }: { name: string }) => {
 const OrderList = ({
   orders,
   isLoading,
-}: //   mutate,
+}: 
 {
   orders: Order[];
   isLoading: boolean;
-  mutate: () => void;
 }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -233,15 +230,12 @@ const OrderList = ({
     return filteredData;
   }, [filterValue, hasSearchFilter, orders]);
 
-  // Hitung total halaman
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1;
 
-  // Pagination dari data yang sudah difilter
   const paginatedItems = React.useMemo(() => {
     return filteredItems.slice((page - 1) * rowsPerPage, page * rowsPerPage);
   }, [filteredItems, page, rowsPerPage]);
 
-  // Reset page ke 1 saat filter atau rowsPerPage berubah
   React.useEffect(() => {
     setPage(1);
   }, [filterValue, rowsPerPage]);

@@ -1,4 +1,4 @@
-import { Product } from "@/interfaces";
+import { Product } from "@/utils/interfaces";
 import { Button } from "@heroui/react";
 import Cookies from "js-cookie";
 import { SquareX } from "lucide-react";

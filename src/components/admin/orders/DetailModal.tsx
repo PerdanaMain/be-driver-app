@@ -1,36 +1,103 @@
-import { Order } from "@/interfaces";
+import { Order } from "@/utils/interfaces";
 import {
   Button,
-  // Divider,
-  // Input,
-  // Modal,
-  // ModalBody,
-  // ModalContent,
-  // ModalFooter,
-  // ModalHeader,
-  // useDisclosure,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+  Chip,
+  Tooltip,
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Card,
+  CardBody,
+  // Badge,
 } from "@heroui/react";
-// import { Info, XCircle } from "lucide-react";
-import { Info } from "lucide-react";
-// import Image from "next/image";
+import {
+  Info,
+  XCircle,
+  Package,
+  Calendar,
+  User,
+  Clock,
+  Phone,
+  CreditCard,
+  ShoppingCart,
+  AlertTriangle,
+} from "lucide-react";
 
-const DetailOrderModal = ({  }: { order: Order }) => {
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const DetailOrderModal = ({ order }: { order: Order }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const StatusBadge = ({ status }: { status: string }) => {
+    let bgColor = "bg-green-100";
+    let textColor = "text-green-800";
+
+    if (status === "success") {
+      bgColor = "bg-green-100";
+      textColor = "text-green-800";
+    } else if (status === "pending") {
+      bgColor = "bg-yellow-100";
+      textColor = "text-yellow-800";
+    } else if (status === "failed") {
+      bgColor = "bg-red-100";
+      textColor = "text-red-800";
+    }
+
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor}`}
+      >
+        {status}
+      </span>
+    );
+  };
+
+  const formatDate = (dateString: string | undefined | null) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+    return new Intl.DateTimeFormat("en-EN", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
+
   return (
     <>
       <Button
-        // onPress={onOpen}
+        onPress={onOpen}
         isIconOnly
         className="cursor-pointer active:opacity-50"
-        aria-label="Edit inventory"
+        aria-label="Detail Order"
       >
         <Info size={18} />
       </Button>
-      {/* <Modal
+      <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         backdrop="blur"
         placement="center"
+        size="2xl"
         classNames={{
           backdrop:
             "bg-gradient-to-t from-zinc-900/50 to-zinc-900/30 backdrop-blur-md backdrop-opacity-30",
@@ -65,88 +132,143 @@ const DetailOrderModal = ({  }: { order: Order }) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                <div className="text-xl font-bold text-gray-800">
-                  Add New Product
-                </div>
-                <div className="text-sm text-gray-500">
-                  Fill in the details below to add a new product.
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="text-xl font-bold text-gray-800">
+                      Detail Order #{order.id.substring(0, 8)}
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                      <Calendar size={14} />
+                      {formatDate(order.createdAt)}
+                      <StatusBadge status={order.status} />
+                    </div>
+                  </div>
+                  {order.isExpired && (
+                    <Tooltip content="Order Expired">
+                      <Chip
+                        variant="flat"
+                        color="danger"
+                        startContent={<Clock size={14} />}
+                        className="bg-gray-600 px-4"
+                      >
+                        Expired:{" "}
+                        {new Date(order.expiredAt).toLocaleDateString("id-ID", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </Chip>
+                    </Tooltip>
+                  )}
                 </div>
               </ModalHeader>
 
-              <Divider />
+              <ModalBody className="space-y-6 text-base text-gray-800 max-h-[60vh] overflow-y-auto">
+                {/* Customer Information */}
+                <div>
+                  <h3 className="font-bold mb-2 flex items-center gap-2">
+                    <User size={18} className="text-blue-600" />
+                    Customer Information
+                  </h3>
+                  <Card shadow="sm" className="bg-gray-50">
+                    <CardBody className="p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <p className="text-sm text-gray-500">Name</p>
+                          <p className="font-medium">{order.cart.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Email</p>
+                          <p className="font-medium">{order.cart.email}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500 flex items-center gap-1">
+                            <Phone size={14} />
+                            Phone
+                          </p>
+                          <p className="font-medium">{order.cart.phone}</p>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
 
-              <ModalBody className="space-y-4 text-base font-bold text-gray-800 o max-h-[60vh] overflow-y-auto">
-                {product.image && (
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
-                    <Image
-                      src={product.image}
-                      alt="Product preview"
-                      className="max-h-40 rounded-md border border-gray-200"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
-                )}
+                {/* Order Summary */}
+                <div>
+                  <h3 className="font-bold mb-2 flex items-center gap-2">
+                    <CreditCard size={18} className="text-green-600" />
+                    Order Summary
+                  </h3>
+                  <Card className="bg-gray-50 w-full max-w-2xl mx-auto">
+                    <CardBody className="p-4">
+                      <div className="space-y-2">
+                        {/* Header baris dengan lebar tetap untuk setiap kolom */}
+                        <div className="grid grid-cols-4 gap-2 text-sm font-medium">
+                          <div className="text-neutral-800">Product</div>
+                          <div className="text-neutral-800 text-right">
+                            Price
+                          </div>
+                          <div className="text-neutral-800 text-center">
+                            Quantity
+                          </div>
+                          <div className="text-neutral-800 text-right">
+                            Sub Total
+                          </div>
+                        </div>
 
-                <label className="text-sm text-gray-600">Product Name</label>
-                <Input
-                  placeholder="Enter product name"
-                  value={product.name}
-                  isDisabled
-                  className="w-full"
-                />
+                        {/* Mapping item dengan grid yang sama untuk konsistensi */}
+                        {order.cart.cart_items.map((item) => (
+                          <div
+                            className="grid grid-cols-4 gap-2 text-sm"
+                            key={item.id}
+                          >
+                            <div className="text-gray-600 truncate">
+                              {item.product.name}
+                            </div>
+                            <div className="text-gray-600 text-right">
+                              {formatCurrency(item.product.price)}
+                            </div>
+                            <div className="text-gray-600 text-center">
+                              {item.quantity}
+                            </div>
+                            <div className="text-gray-600 text-right">
+                              {formatCurrency(item.sub_total)}
+                            </div>
+                          </div>
+                        ))}
 
-                <label className="text-sm text-gray-600">Description</label>
-                <Input
-                  placeholder="Enter product description"
-                  value={product.description}
-                  isDisabled
-                  className="w-full"
-                />
+                        <Divider className="my-2" />
 
-                <label className="text-sm text-gray-600">Price</label>
-                <Input
-                  type="number"
-                  placeholder="Enter the price"
-                  value={product.price.toString()}
-                  isDisabled
-                  className="w-full"
-                />
-                <label className="text-sm text-gray-600">Stock</label>
-                <Input
-                  type="number"
-                  placeholder="Enter the stock"
-                  value={product.stock.toString()}
-                  isDisabled
-                  className="w-full"
-                />
-                <label className="text-sm text-gray-600">Inventory</label>
-                <Input
-                  type="text"
-                  placeholder="Enter the stock"
-                  value={product.inventory?.name}
-                  className="w-full"
-                  isDisabled
-                />
+                        {/* Total dengan penempatan yang tepat */}
+                        <div className="flex justify-between">
+                          <div className="font-bold">Total</div>
+                          <div className="font-bold text-lg">
+                            {formatCurrency(order.total_amount)}
+                          </div>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+
+                {/* Product Details */}
               </ModalBody>
 
-              <Divider />
-
-              <ModalFooter>
-                <Button
-                  color="danger"
-                  className="bg-red-600 cursor-pointer"
-                  onPress={onClose}
-                  startContent={<XCircle size={16} />}
-                >
-                  Close
-                </Button>
+              <ModalFooter className="flex justify-between">
+                <div className="flex justify-end w-full">
+                  <Button
+                    color="default"
+                    className="bg-gray-600 cursor-pointer px-12 rounded-lg"
+                    onPress={onClose}
+                  >
+                    Tutup
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

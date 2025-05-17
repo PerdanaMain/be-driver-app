@@ -27,9 +27,8 @@ export interface Order {
   cart: Cart;
   isExpired: boolean;
   expiredAt: string;
-  created_at: string;
-  updated_at: string;
-  products: Product[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Cart {
