@@ -1,9 +1,10 @@
 "use client";
-
-import InventoryList from "@/components/admin/inventory/InventoryList";
+import React from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { Inventory } from "@/interfaces";
+import { Order } from "@/interfaces";
+import OrderList from "@/components/admin/orders/OrderList";
+
 
 const Page = () => {
   const token = Cookies.get("token");
@@ -16,26 +17,26 @@ const Page = () => {
 
   const {
     data,
-    isLoading: isLoadingInventory,
-    mutate: inventoryMutate,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/inventory`, fetcher, {
+    isLoading: isLoadingOrder,
+    mutate: mutateOrder,
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/invoices`, fetcher, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
-  const inventory = data?.data as Inventory[];
 
+  const orders = data?.data.invoices as Order[];
   return (
     <main className="py-6 px-6 sm:px-2 lg:px-5">
       {/* attendance */}
       <div className="bg-white rounded-2xl w-full px-6 py-4 text-gray-800">
-        <h1 className="text-lg font-semibold">Inventory</h1>
+        <h1 className="text-lg font-semibold">Order History</h1>
       </div>
 
       <div className="bg-white rounded-2xl w-full text-gray-800 mt-4">
-        <InventoryList
-          inventory={inventory || []}
-          isLoading={isLoadingInventory}
-          mutate={inventoryMutate}
+        <OrderList
+          orders={orders || []}
+          isLoading={isLoadingOrder}
+          mutate={mutateOrder}
         />
       </div>
     </main>

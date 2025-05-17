@@ -109,7 +109,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
           </li>
           <li>
             <Link
-              href="/admin/products"
+              href="/admin/orders"
               className={`flex space-x-3 items-center px-6 py-3 rounded-lg ${
                 pathName === "/admin/orders"
                   ? "bg-indigo-50 text-indigo-600"

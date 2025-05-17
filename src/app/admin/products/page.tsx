@@ -3,7 +3,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
 import { Inventory, Product } from "@/interfaces";
-import ProductList from "@/components/admin/ProductList";
+import ProductList from "@/components/admin/products/ProductList";
 
 const Page = () => {
   const token = Cookies.get("token");

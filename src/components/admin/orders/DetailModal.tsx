@@ -1,32 +1,32 @@
-import { Product } from "@/interfaces";
+import { Order } from "@/interfaces";
 import {
   Button,
-  Divider,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
+  // Divider,
+  // Input,
+  // Modal,
+  // ModalBody,
+  // ModalContent,
+  // ModalFooter,
+  // ModalHeader,
+  // useDisclosure,
 } from "@heroui/react";
-import { Info, XCircle } from "lucide-react";
-import Image from "next/image";
+// import { Info, XCircle } from "lucide-react";
+import { Info } from "lucide-react";
+// import Image from "next/image";
 
-const DetailProductModal = ({ product }: { product: Product }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const DetailOrderModal = ({  }: { order: Order }) => {
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
       <Button
-        onPress={onOpen}
+        // onPress={onOpen}
         isIconOnly
         className="cursor-pointer active:opacity-50"
         aria-label="Edit inventory"
       >
         <Info size={18} />
       </Button>
-
-      <Modal
+      {/* <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         backdrop="blur"
@@ -66,10 +66,10 @@ const DetailProductModal = ({ product }: { product: Product }) => {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="text-xl font-bold text-gray-800">
-                  Detail Product
+                  Add New Product
                 </div>
                 <div className="text-sm text-gray-500">
-                  {product.name} - {product.inventory?.name}
+                  Fill in the details below to add a new product.
                 </div>
               </ModalHeader>
 
@@ -146,9 +146,9 @@ const DetailProductModal = ({ product }: { product: Product }) => {
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   );
 };
 
-export default DetailProductModal;
+export default DetailOrderModal;

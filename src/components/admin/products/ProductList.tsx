@@ -1,9 +1,4 @@
-import React from "react";
-import { Toaster } from "react-hot-toast";
 import { Inventory, Product } from "@/interfaces";
-import AddProductModal from "./products/AddModal";
-import DetailProductModal from "./products/DetailModal";
-
 import {
   Table,
   TableBody,
@@ -12,8 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import DeleteProductModal from "./products/DeleteModal";
-import UpdateProductModal from "./products/UpdateModal";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+
+import AddProductModal from "./AddModal";
+import DeleteProductModal from "./DeleteModal";
+import DetailProductModal from "./DetailModal";
+import UpdateProductModal from "./UpdateModal";
 
 const ProductList = ({
   products,
@@ -72,7 +72,11 @@ const ProductList = ({
           return (
             <div className="relative flex items-center gap-2">
               <DetailProductModal product={item} />
-              <UpdateProductModal product={item} mutate={mutate} inventory={inventory}/>
+              <UpdateProductModal
+                product={item}
+                mutate={mutate}
+                inventory={inventory}
+              />
               <DeleteProductModal product={item} mutate={mutate} />
             </div>
           );
@@ -90,6 +94,61 @@ const ProductList = ({
       </div>
     );
   }, [mutate, inventory]);
+
+  const TableSkeleton = () => {
+    return (
+      <div className="rounded-lg border border-gray-200 overflow-hidden">
+        <div className="py-4 px-6 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+          <div className="h-8 bg-gray-200 rounded animate-pulse w-32"></div>
+        </div>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              {columns.map((item) => (
+                <th
+                  key={item.key}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {item.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {[...Array(5)].map((_, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full max-w-[150px]"></div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex space-x-2">
+                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
 
   return (
     <>
@@ -112,8 +171,6 @@ const ProductList = ({
         <TableBody
           items={products}
           emptyContent={"No rows to display."}
-          loadingContent={"Loading..."}
-          isLoading={isLoading}
         >
           {(item) => (
             <TableRow key={item.id}>
