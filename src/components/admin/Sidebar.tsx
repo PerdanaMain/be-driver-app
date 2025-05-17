@@ -3,7 +3,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { X, Book } from "lucide-react";
+import { X, ShoppingCart, Book } from "lucide-react";
 
 interface SidebarProps {
   closeSidebar: () => void;
@@ -105,6 +105,22 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
                 <Book />
               </span>
               <span>Products</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/products"
+              className={`flex space-x-3 items-center px-6 py-3 rounded-lg ${
+                pathName === "/admin/orders"
+                  ? "bg-indigo-50 text-indigo-600"
+                  : ""
+              }`}
+              onClick={closeSidebar}
+            >
+              <span>
+                <ShoppingCart />
+              </span>
+              <span>Orders</span>
             </Link>
           </li>
         </ul>

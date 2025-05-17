@@ -50,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
         <div>
           <span className="text-gray-600 text-sm sm:text-base">Hi</span>
           <span className="text-gray-800 font-bold ml-1 text-sm sm:text-base">
-            {auth?.name}
+            {auth?.name ?? "Admin"}
           </span>
           <div className="text-indigo-500 text-xs mt-1 font-semibold">
           </div>
