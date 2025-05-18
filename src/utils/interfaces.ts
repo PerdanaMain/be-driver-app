@@ -50,3 +50,8 @@ export interface CartItem {
   sub_total: number;
   product: Product;
 }
+
+export interface Statistic{
+  total_orders: number;
+  total_amount: number;
+}

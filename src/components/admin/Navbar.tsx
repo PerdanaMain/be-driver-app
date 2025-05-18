@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   }
 
   return (
-    <nav className="px-4 sm:px-8 py-4 sm:py-6 bg-white flex flex-wrap items-center justify-between shadow-sm">
+    <nav className="px-12 sm:px-8 py-4 sm:py-6 bg-white flex flex-wrap items-center justify-between shadow-sm">
       <div className="flex items-center">
         {/* Menu toggle button for mobile */}
         <button
@@ -58,30 +58,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
       </div>
 
       <div className="flex items-center text-gray-500 space-x-4 sm:space-x-8 mt-4 sm:mt-0 w-full sm:w-auto justify-end">
-        <div className="relative items-center content-center flex w-full sm:w-auto">
-          <input
-            type="text"
-            className="text-xs bg-gray-100 pl-4 pr-10 py-2 sm:py-3 rounded-md w-full sm:w-64 outline-none focus:ring-1"
-            placeholder="Search for anything ..."
-          />
-          <span className="text-gray-400 absolute right-4 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </span>
-        </div>
-
         <div className="hidden sm:flex items-center space-x-4 sm:space-x-8">
           <Dropdown
             classNames={{

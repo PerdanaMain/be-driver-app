@@ -1,36 +1,25 @@
 import { Order } from "@/utils/interfaces";
 import {
   Button,
+  Card,
+  CardBody,
+  Chip,
   Divider,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
-  Chip,
   Tooltip,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Card,
-  CardBody,
-  // Badge,
+  useDisclosure
 } from "@heroui/react";
 import {
-  Info,
-  XCircle,
-  Package,
   Calendar,
-  User,
   Clock,
-  Phone,
   CreditCard,
-  ShoppingCart,
-  AlertTriangle,
+  Info,
+  Phone,
+  User
 } from "lucide-react";
 
 const DetailOrderModal = ({ order }: { order: Order }) => {

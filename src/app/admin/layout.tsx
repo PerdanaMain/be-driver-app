@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Sidebar from "@/components/admin/Sidebar";
 import Navbar from "@/components/admin/Navbar";
+import Sidebar from "@/components/admin/Sidebar";
+import { useEffect, useState } from "react";
+
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     
     // Add event listener
     window.addEventListener("resize", checkScreenSize);
+
     
     // Cleanup
     return () => window.removeEventListener("resize", checkScreenSize);
